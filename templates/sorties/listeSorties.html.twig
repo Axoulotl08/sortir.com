@@ -6,21 +6,42 @@
 
     <div class="barre_info">
         <div class="info_jour">date du jour: {{ "now"|date("d/m/Y") }}</div>
-        <div class="info_user">  Participant: {# TODO ajouter les info user #}</div>
+        <div class="info_user">  Participant: {{ app.user.username }}</div>
     </div>
 
-    <div class="recherche">
+    {# <div class="recherche">
         <form>
             <h3>Filtrer les sorties</h3>
-            <label for="campusSelect"></label>
-            <select id="CampusSelect" name="CampusSelect">
-                {% for campus in listeCampus %}
-                    <option value="{{ campus.id }}">{{ campus.nom }}</option>
-                {% endfor %}
-            </select>
+            <div class="champRecherche">
+                <label for="campusSelect">campus </label>
+                <select id="CampusSelect" name="CampusSelect">
+                    {% for campus in listeCampus %}
+                        <option value="{{ campus.id }}">{{ campus.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+           <div class="champRecherche">
+               <label for="seekInTitle">Le nom de la sortie contient:</label>
+               <input type="text" id="seekInTitle" name="seekInTitle" placeholder="&#x1F50D; search">
+           </div>
+           <div class="champRecherche">
+               <label for="dateDebut">Entre</label>
+               <input id="dateDebut" name="dateDebut" type="date">
+               <label for="dateFin">et</label>
+               <input id="dateFin" name="dateFin" type="date">
+           </div>
+            <div class="checkboxFilter">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+
+            </div>
+
+
 
         </form>
-    </div>
+    </div>#}
 
     <div>
         <table class="listeSortie">
@@ -44,9 +65,27 @@
                         <th>{{ sortie.dateLimiteInscription | date("d/m/Y") }}</th>
                         <th>{{ sortie.inscrits.count }}/{{ sortie.nbInscriptionsMax }}</th>
                         <th>{{ sortie.etat.libelle }}</th>
-                        <th>{# {%  if user in sortie.inscrits %}X{% endif %} #} X</th>
+                        <th>{%  if app.user.participant in sortie.inscrits %}X{% endif %}</th>
                         <th>{{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom |slice(0, 1)  }}</th>
-                        <th>afficher/se desister/modifier/publier/s'inscrire</th>
+                        <th>
+                            {%  if app.user.participant is same as sortie.organisateur %}
+                                {% if sortie.etat.libelle == "Créee" %}
+                                    modifier - publier
+                                {% else %}
+                                    afficher
+                                {% endif %}
+                                {% if sortie.etat.libelle == "Ouverte" %}
+                                    annuler
+                                {% endif %}
+                            {% else %}
+                                afficher
+                                {%  if app.user.participant in sortie.inscrits %}
+                                    se desister
+                                {% else %}
+                                    s'inscrire
+                                {% endif %}
+                            {% endif %}
+                        </th>
                     </tr>
                 {%  endfor %}
             </tbody>
