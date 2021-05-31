@@ -6,6 +6,7 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
@@ -21,6 +22,7 @@ class Participant
 
     /**
      * @ORM\Column(type="string", length=50)
+     *
      */
     private $nom;
 
@@ -36,6 +38,7 @@ class Participant
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email()
      */
     private $mail;
 
@@ -64,6 +67,11 @@ class Participant
      * @ORM\ManyToMany(targetEntity=Sortie::class, mappedBy="inscrits")
      */
     private $estInscritA;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="participant", cascade={"persist", "remove"})
+     */
+    private $user;
 
     public function __construct()
     {
@@ -213,6 +221,23 @@ class Participant
         if ($this->estInscritA->removeElement($estInscritA)) {
             $estInscritA->removeInscrit($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        // set the owning side of the relation if necessary
+        if ($user->getParticipant() !== $this) {
+            $user->setParticipant($this);
+        }
+
+        $this->user = $user;
 
         return $this;
     }
