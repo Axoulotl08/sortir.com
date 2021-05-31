@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}liste des sorties - {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <div class="barre_info">
+        <div class="info_jour">date du jour: {{ "now"|date("d/m/Y") }}</div>
+        <div class="info_user">  Participant: {# TODO ajouter les info user #}</div>
+    </div>
+
+    <div class="recherche">
+        <form>
+            <h3>Filtrer les sorties</h3>
+            <label for="campusSelect"></label>
+            <select id="CampusSelect" name="CampusSelect">
+                {% for campus in listeCampus %}
+                    <option value="{{ campus.id }}">{{ campus.nom }}</option>
+                {% endfor %}
+            </select>
+
+        </form>
+    </div>
+
+    <div>
+        <table class="listeSortie">
+            <thead>
+                <tr>
+                    <th>Nom de la sortie</th>
+                    <th>Date de la sortie</th>
+                    <th>Clôture</th>
+                    <th>Inscrits/place</th>
+                    <th>État</th>
+                    <th>Inscrit</th>
+                    <th>Organisateur</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%  for sortie in listSorties %}
+                    <tr>
+                        <th>{{ sortie.nom }}</th>
+                        <th>{{ sortie.dateHeureDebut | date("d/m/Y h:i") }}</th>
+                        <th>{{ sortie.dateLimiteInscription | date("d/m/Y") }}</th>
+                        <th>{{ sortie.inscrits.count }}/{{ sortie.nbInscriptionsMax }}</th>
+                        <th>{{ sortie.etat.libelle }}</th>
+                        <th>{# {%  if user in sortie.inscrits %}X{% endif %} #} X</th>
+                        <th>{{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom |slice(0, 1)  }}</th>
+                        <th>afficher/se desister/modifier/publier/s'inscrire</th>
+                    </tr>
+                {%  endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+{%  endblock %}

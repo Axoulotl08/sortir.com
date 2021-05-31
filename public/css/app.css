@@ -1,0 +1,103 @@
+.navbar{
+    display: inline-block;
+}
+
+header{
+    border-bottom: 1px solid black;
+    height: 50px;
+    width: 100%;
+    padding: 10px;
+}
+
+.icon-navbar
+{
+    margin-left:5px;
+    height: 40px;
+}
+
+.logo{
+    height: 50px;
+    width: 120px;
+}
+
+
+.icon-navbar>a
+{
+    text-decoration: none;
+}
+
+.lien
+{
+    margin:15px;
+    position: absolute;
+    right: 0;
+}
+
+.barre_info{
+    background-color: #B0413E;
+    padding:20px;
+}
+.info_user,
+.info_jour
+{
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* css du tableau */
+
+.listeSortie tbody tr:nth-child(even)
+{
+    background-color			: #eee;
+}
+
+.listeSortie tr:hover
+{
+    background-color			: #D1D4DF !important;
+}
+
+.listeSortie
+{
+    position: relative;
+    margin: auto;
+    padding:20px;
+    font-size					: 10px;
+    border-collapse				: collapse;
+    border-bottom: 1px solid black;
+}
+
+.listeSortie th, .listeSortie td, .listeSortie tr
+{
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+
+}
+
+.listeSortie th, .listeSortie td
+{
+    overflow					: hidden;
+    text-overflow				: ellipsis;
+    white-space					: nowrap;
+    text-align					: left;
+    font-size : 10px;
+    padding: 5px;
+}
+
+.listeSortie th {
+    font-weight: bold;
+}
+
+.listeSortie thead tr:nth-child(1) th
+{
+    text-align					: center;
+}
+
+.listeSortie thead th
+{
+    position					: -webkit-sticky;
+    position					: sticky;
+    top							: 0;
+    z-index						: 5;
+    background-color			: darkgray;
+    color : black;
+}
