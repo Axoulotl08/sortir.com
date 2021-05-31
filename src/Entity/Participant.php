@@ -65,6 +65,11 @@ class Participant
      */
     private $estInscritA;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="participant", cascade={"persist", "remove"})
+     */
+    private $user;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
@@ -213,6 +218,23 @@ class Participant
         if ($this->estInscritA->removeElement($estInscritA)) {
             $estInscritA->removeInscrit($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        // set the owning side of the relation if necessary
+        if ($user->getParticipant() !== $this) {
+            $user->setParticipant($this);
+        }
+
+        $this->user = $user;
 
         return $this;
     }
