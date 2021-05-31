@@ -2,6 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
+use App\Entity\User;
+use App\Repository\ParticipantRepository;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,11 +21,13 @@ class ParticipantController extends AbstractController
     /**
      * @Route("/", name="_profil")
      */
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, ParticipantRepository $repository): Response
     {
-        $user = $this->getUser();
-        return $this->render('participant/index.html.twig', [
-            'controller_name' => 'ParticipantController',
+        $id = $this->getUser()->getId();
+        $user = $repository->find($id);
+        dump($user);
+        return $this->render('participant/monProfil.htlm.twig', [
+            'user' => $user
         ]);
     }
 

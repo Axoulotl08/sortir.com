@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription - {{ parent() }}{% endblock %}
+{% block title %}Ajouter un nouvelle utilisateur - {{ parent() }}{% endblock %}
 
 {% block body %}
     {% for flashError in app.flashes('verify_email_error') %}
@@ -11,7 +11,7 @@
         {{ form_start(registrationForm) }}
         <div class="row">
             <div class="col-lg-4 col-lg-offset-4">
-                {{ form_row(registrationForm.username) }}
+                {{ form_row(registrationForm.participant) }}
             </div>
         </div>
         <div class="row">

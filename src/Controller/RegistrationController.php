@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\AppAuthenticator;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/inscription", name="app_register")
+     * @Route("/ajouterParticipant", name="ajouter_participant")
      */
     public function register(Request $request,
                              UserPasswordEncoderInterface $passwordEncoder,
@@ -25,6 +26,8 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+        /*$participant = new Participant();
+        $formParticipant = $this->createForm();*/
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
@@ -34,7 +37,9 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
+            $user->setUsername(strtolower($user->getParticipant()->getNom()) .'-'. strtolower($user->getParticipant()->getPrenom()));
+            $user->getParticipant()->setActif(true);
+            dump($user);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();

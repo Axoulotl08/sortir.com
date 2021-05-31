@@ -2,8 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Participant;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,15 +18,27 @@ class ParticipantType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
-            ->add('prenom')
-            ->add('telephone')
-            ->add('mail')
-            ->add('administrateur')
-            ->add('actif')
-            ->add('campus')
-            ->add('estInscritA')
-            ->add('user')
+            ->add('nom', TextType::class, [
+                'label' => 'Nom :'
+            ])
+            ->add('prenom', TextType::class, [
+                'label' => 'Prénom : '
+            ])
+            ->add('telephone', TextType::class, [
+                'label' => 'Téléphone :'
+            ])
+            ->add('mail', EmailType::class, [
+                'label' => 'Email'
+            ])
+            ->add('administrateur', CheckboxType::class, [
+                'label' => 'Administrateur',
+                'required'=>false
+            ])
+            ->add('campus', EntityType::class, [
+                'class' => Campus::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Sélectionnez le campus'
+            ])
         ;
     }
 
