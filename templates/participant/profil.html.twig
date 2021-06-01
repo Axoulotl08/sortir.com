@@ -2,6 +2,7 @@
 
 {% block body %}
 <section class="container">
+    <img src="{{ asset('images/profils/' ~ user.participant.imageName) }}" alt="Photo de {{ user.username }}" class="affichage_profil">
     <div class="affichage_profil">{{ user.username }}</div><br>
     <div class="affichage_profil">Prénom : {{ user.participant.prenom}} </div><br>
     <div class="affichage_profil">Nom : {{ user.participant.nom }}</div><br>

@@ -6,12 +6,12 @@ use App\Entity\Campus;
 use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ParticipantType extends AbstractType
 {
@@ -39,6 +39,10 @@ class ParticipantType extends AbstractType
             ->add('administrateur', CheckboxType::class, [
                 'label' => 'Administrateur ?',
                 'required' => false
+            ])
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'label' => 'Photo :'
             ])
         ;
     }

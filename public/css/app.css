@@ -54,6 +54,13 @@ header{
     justify-content: flex-end;
 }
 
+img{
+    max-width: 200px;
+    height: auto;
+    margin:auto;
+    display:flex
+}
+
 /* css du tableau */
 
 .listeSortie tbody tr:nth-child(even)
