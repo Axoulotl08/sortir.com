@@ -1,10 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+    {{ form_start(userForm) }}<br>
+    {{ form_row(userForm.username) }}<br>
+    {{ form_row(userForm.participant.nom) }}<br>
+    {{ form_row(userForm.participant.prenom) }}<br>
+    {{ form_row(userForm.participant.telephone) }}<br>
+    {{ form_row(userForm.participant.mail) }}<br>
+    {{ form_row(userForm.plainPassword, {'required':false}) }}<br>
+    {{ form_row(userForm.confirmationPass, {'required':false}) }}<br>
+    {{ form_row(userForm.participant.campus) }}<br>
+    <button>Enregistrer</button>
+     <div hidden>
+        {{ form_row(userForm.participant.administrateur) }}
+        {{ form_end(userForm) }}
+    </div>
+    {{ form_end(userForm) }}
+    <a href="{{ path('sortie_liste') }}">Annuler</a>
 {% endblock %}
 
 {% block title %}
-
+Modifier votre profil - {{ parent() }}
 {% endblock %}
-

@@ -1,4 +1,4 @@
-<!--<nav class="navbar navbar-expand-lg navbar-light bg-light">
+{#  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="row justify-content-between">
         <div class="col-6 border border-primary">
             <a class="navbar-brand" href="{{ path('sortie_liste') }}">Sortir.com</a>
@@ -15,7 +15,7 @@
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ path('app_register') }}">Inscription</a>
+                            <a class="nav-link active" aria-current="page" href="{{ path('ajouter_participant') }}">Inscription</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{{ path('app_login') }}">Connexion</a>
@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-</nav>-->
+</nav>#}
 
 <header>
     <span class="navbar icon-navbar"><a class="brand" href="{{ path('sortie_liste') }}"><img class="logo" src="{{ asset('image/sortir.com.png')}}"></a></span> {# todo a remplacer par logo #}
@@ -34,7 +34,7 @@
         {% if app.user %}
             <a class="link" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
         {% else %}
-           <a class="link" aria-current="page" href="{{ path('app_register') }}">Inscription</a>
+           <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Inscription</a>
            <a class="link" aria-current="page" href="{{ path('app_login') }}">Connexion</a>
         {% endif %}
     </span>

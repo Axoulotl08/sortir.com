@@ -30,14 +30,15 @@ class ParticipantType extends AbstractType
             ->add('mail', EmailType::class, [
                 'label' => 'Email'
             ])
-            ->add('administrateur', CheckboxType::class, [
-                'label' => 'Administrateur',
-                'required'=>false
-            ])
+
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
                 'placeholder' => 'Sélectionnez le campus'
+            ])
+            ->add('administrateur', CheckboxType::class, [
+                'label' => 'Administrateur ?',
+                'required' => false
             ])
         ;
     }
