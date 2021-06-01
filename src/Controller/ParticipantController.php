@@ -70,8 +70,12 @@ class ParticipantController extends AbstractController
     /**
      * @Route("/{id}", name="_afficher", requirements={"id"="\d+"})
      */
-    public function afficherProfil($id): Response
+    public function afficherProfil($id,
+                                   UserRepository $userRepository): Response
     {
-
+        $user = $userRepository->find($id);
+        return $this->render('participant/profil.html.twig', [
+            'user' => $user
+        ]);
     }
 }
