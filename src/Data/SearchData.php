@@ -5,9 +5,10 @@ namespace App\Data;
 
 
 use App\Entity\Campus;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Validator\Constraints\Date;
 
-class searchData
+class SearchData
 {
 
     /**
@@ -21,33 +22,33 @@ class searchData
     public $campus;
 
     /**
-     * @var null|Date
+     * @var null|DateType
      */
     public $dateIntervalDebut;
 
     /**
-     * @var null|Date
+     * @var null|DateType
      */
     public $dateIntervalFin;
 
     /**
      * @var boolean
      */
-    public $organisateur;
+    public $organisateur = true;
 
     /**
      * @var boolean
      */
-    public $estInscrit;
+    public $estInscrit = true;
 
     /**
      * @var boolean
      */
-    public $nEstPasInscrit;
+    public $nEstPasInscrit = true;
 
     /**
      * @var boolean
      */
-    public $passé;
+    public $passee= false;
 
 }

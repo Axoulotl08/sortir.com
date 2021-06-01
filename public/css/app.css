@@ -101,3 +101,32 @@ header{
     background-color			: darkgray;
     color : black;
 }
+
+.filtreSortie
+{
+    width	: 100%;
+    display : flex;
+    justify-content: space-around;
+    margin-bottom: 1.5rem;
+}
+
+.categorieFiltre
+{
+    display: inline-block;
+    margin:20px;
+}
+
+.champFiltre{
+    display: block;
+    margin: 5px;
+}
+
+button.categorieFiltre{
+    height : 80px;
+    width : 170px;
+    position: relative;
+    top: -40px;
+    border: 2px solid black;
+    background-color: white;
+    border-radius: 10px;
+}
