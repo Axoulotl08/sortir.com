@@ -1,32 +1,3 @@
-{#  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="row justify-content-between">
-        <div class="col-6 border border-primary">
-            <a class="navbar-brand" href="{{ path('sortie_liste') }}">Sortir.com</a>
-        </div>
-        <div class="col-6 border border-primary">
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ path('sortie_liste') }}">Accueil</a>
-                    </li>
-                    {% if app.user %}
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ path('ajouter_participant') }}">Inscription</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ path('app_login') }}">Connexion</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </div>
-</nav>#}
-
 <header>
     <span class="navbar icon-navbar"><a class="brand" href="{{ path('sortie_liste') }}"><img class="logo" src="{{ asset('image/sortir.com.png')}}"></a></span> {# todo a remplacer par logo #}
     <span class="navbar lien">
