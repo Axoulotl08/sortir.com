@@ -6,11 +6,12 @@ namespace App\Form;
 
 use App\Data\searchData;
 use App\Entity\Campus;
+use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,10 +21,12 @@ class SearchType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder
             ->add('campus', EntityType::class, [
                 'label' => 'Campus',
                 'choice_label' => 'nom',
+                'placeholder' => 'Campus',
                 'required' => false,
                 'class' => Campus::class,
                 'expanded' => false,
@@ -64,6 +67,7 @@ class SearchType extends AbstractType
                 'label' => 'Sorties passées',
                 'required' => false,
             ])
+            ->add('particiantid', HiddenType::class)
         ;
     }
 
@@ -73,7 +77,7 @@ class SearchType extends AbstractType
         $resolver->setDefaults([
             'data_class' => searchData::class,
             'method' => 'GET',
-            'csrf_protection' => false
+            'csrf_protection' => true
         ]);
     }
 

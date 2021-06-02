@@ -5,8 +5,8 @@ namespace App\Data;
 
 
 use App\Entity\Campus;
+use App\Entity\Participant;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Validator\Constraints\Date;
 
 class SearchData
 {
@@ -15,6 +15,12 @@ class SearchData
      * @var string
      */
     public $titleSearch;
+
+
+    /**
+     * @var integer
+     */
+    public $particiantid;
 
     /**
      * @var Campus

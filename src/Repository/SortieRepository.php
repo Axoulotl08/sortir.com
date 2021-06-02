@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +49,80 @@ class SortieRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findSearch(\App\Data\SearchData $data)
+    {
+
+        $query = $this
+            ->createQueryBuilder('sorties')
+            ->leftJoin('sorties.organisateur', 'organisateur')
+            ->leftJoin('sorties.etat', 'etat')
+            ->leftJoin('sorties.inscrits', 'participants')
+            ->leftJoin('sorties.siteOrganisateur', 'campus')
+            ->select('sorties','organisateur','etat','participants');
+
+        if(!empty($data->campus)){
+            $query = $query
+                ->andWhere('campus.id = :cId' )
+                ->setParameter('cId', $data->campus->getId());
+        }
+
+        if(!empty($data->titleSearch)){
+            $query = $query
+                ->andWhere('sorties.nom Like :sName')
+                ->setParameter('sName', "%{$data->titleSearch}%" );
+        }
+
+        if(!empty($data->dateIntervalDebut)){
+            $query = $query
+                ->andWhere('sorties.dateHeureDebut >= :sDateDebut')
+                ->setParameter('sDateDebut', $data->dateIntervalDebut);
+        }
+
+        if(!empty($data->dateIntervalFin)){
+            $query = $query
+                ->andWhere('sorties.dateHeureDebut <= :sDateFin')
+                ->setParameter('sDateFin', $data->dateIntervalFin);
+        }
+
+
+
+            if(!empty($data->organisateur)){
+
+                $query = $query
+                    ->orWhere('organisateur.id = :oId')
+                    ->setParameter('oId', $data->particiantid);
+            }
+
+
+            if(!empty($data->estInscrit)){
+                $query = $query
+                    ->orWhere('participants.id = :pId')
+                    ->setParameter('pId', $data->particiantid);
+            }
+
+
+            if(!empty($data->nEstPasInscrit)) {
+                $queryListActiviteInscrit = $this
+                    ->createQueryBuilder('listeSortiOuInscrit')
+                    ->leftJoin('listeSortiOuInscrit.inscrits', 'inscritsListeSortiOuInscrit')
+                    ->where('inscritsListeSortiOuInscrit.id = :pasId')
+                    ->setParameter('pasId', $data->particiantid)
+                    ->select('listeSortiOuInscrit.id as id')
+                    ->indexBy('listeSortiOuInscrit','listeSortiOuInscrit.id')
+                    ->groupBy('id')
+                    ->getQuery()
+                    ->getArrayResult();
+
+                $query = $query
+                    ->orWhere($query->expr()->notIn('sorties.id',array_keys($queryListActiviteInscrit)));
+            }
+
+            if(!empty($data->passee)){
+                $query = $query
+                    ->orWhere('sorties.dateHeureDebut <= :sDateDuJours')
+                    ->setParameter('sDateDuJours', new \DateTime());
+            }
+
+        return $query->getQuery()->getResult();
+    }
 }

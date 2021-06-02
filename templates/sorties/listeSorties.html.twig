@@ -2,47 +2,19 @@
 
 {% block title %}liste des sorties - {{ parent() }}{% endblock %}
 
+
+{% set connectUser = app.user %}
+{% set connectUserParticipant = app.user.participant %}
+
+
 {% block body %}
 
     <div class="barre_info">
         <div class="info_jour">date du jour: {{ "now"|date("d/m/Y") }}</div>
-        <div class="info_user">  Participant: {{ app.user.username }}</div>
+        <div class="info_user">  Participant: {{ connectUser.username }}</div>
     </div>
 
-    {# <div class="recherche">
-        <form>
-            <h3>Filtrer les sorties</h3>
-            <div class="champRecherche">
-                <label for="campusSelect">campus </label>
-                <select id="CampusSelect" name="CampusSelect">
-                    {% for campus in listeCampus %}
-                        <option value="{{ campus.id }}">{{ campus.nom }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-           <div class="champRecherche">
-               <label for="seekInTitle">Le nom de la sortie contient:</label>
-               <input type="text" id="seekInTitle" name="seekInTitle" placeholder="&#x1F50D; search">
-           </div>
-           <div class="champRecherche">
-               <label for="dateDebut">Entre</label>
-               <input id="dateDebut" name="dateDebut" type="date">
-               <label for="dateFin">et</label>
-               <input id="dateFin" name="dateFin" type="date">
-           </div>
-            <div class="checkboxFilter">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-
-            </div>
-
-
-
-        </form>
-    </div>#}
-    <div class="filtreSortie">
+    <div class="filtre">
         {{ form_start(formFilter) }}
         <div class="categorieFiltre">
             <div class="champFiltre">
@@ -76,6 +48,7 @@
             </div>
         </div>
         <button class="categorieFiltre">Rechercher</button>
+        {{ form_widget(formFilter.particiantid, {'attr': {'value':connectUserParticipant.id}}) }}
         {{ form_end(formFilter)}}
     </div>
 
@@ -99,23 +72,25 @@
                         <th>{{ sortie.nom }}</th>
                         <th>{{ sortie.dateHeureDebut | date("d/m/Y h:i") }}</th>
                         <th>{{ sortie.dateLimiteInscription | date("d/m/Y") }}</th>
-                        <th>{{ sortie.inscrits.count }}/{{ sortie.nbInscriptionsMax }}</th>
+                        <th>{{ sortie.inscrits | length }}/{{ sortie.nbInscriptionsMax }}</th>
                         <th>{{ sortie.etat.libelle }}</th>
-                        <th>{%  if app.user.participant in sortie.inscrits %}X{% endif %}</th>
+                        <th>{%  if connectUserParticipant in sortie.inscrits %}X{% endif %}</th>
                         <th>{{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom |slice(0, 1)  }}</th>
                         <th>
-                            {%  if app.user.participant is same as sortie.organisateur %}
+
+                            {%  if connectUserParticipant is same as sortie.organisateur %}
                                 {% if sortie.etat.libelle == "Créee" %}
                                     modifier - publier
                                 {% else %}
-                                    afficher
+                                    <a href="{{ path('sortie_details', {id: sortie.id}) }}">afficher</a>
+
                                 {% endif %}
                                 {% if sortie.etat.libelle == "Ouverte" %}
                                     annuler
                                 {% endif %}
                             {% else %}
-                                afficher
-                                {%  if app.user.participant in sortie.inscrits %}
+                                <a href="{{ path('sortie_details', {id: sortie.id}) }}">afficher</a>
+                                {%  if connectUserParticipant in sortie.inscrits %}
                                     se desister
                                 {% else %}
                                     s'inscrire

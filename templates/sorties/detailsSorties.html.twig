@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h2>Afficher une sortie</h2>
+        <div>
+            <div><span>Nom de la sortie:</span><span>{{ sortie.nom }}</span></div>
+            <div><span>Date et heure de la sortie:</span><span>{{ sortie.dateHeureDebut | date("d/m/Y h:i") }}</span></div>
+            <div><span>Date limite d'inscription:</span><span></span></div>
+            <div><span></span><span></span></div>
+            <div><span></span><span></span></div>
+            <div><span></span><span></span></div>
+        </div>
+        <div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <h2></h2>
+{% endblock %}
+
+{% block title %}
+    detail de la sortie n°{{ sortie.id}} - {{ parent() }}
+{% endblock %}
+
