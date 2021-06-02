@@ -43,7 +43,7 @@ class RegistrationController extends AbstractController
                 );
                 $user->setUsername(strtolower($user->getParticipant()->getNom()) .'-'. strtolower($user->getParticipant()->getPrenom()));
                 $user->getParticipant()->setActif(true);
-                dump($user);
+                $user->getParticipant()->setImageName('photo_defaut.jpg');
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();
