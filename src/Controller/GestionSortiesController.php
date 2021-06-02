@@ -9,6 +9,7 @@ use App\Entity\Sortie;
 use App\Form\SearchType;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +35,6 @@ class GestionSortiesController extends AbstractController
         $formFilter->handleRequest($request);
         $data->particiantid = $this->getUser()->getParticipant()->getId();
 
-        dump($data);
 
 
         $listeSorties = $sortieRepo->findSearch($data);
@@ -64,15 +64,17 @@ class GestionSortiesController extends AbstractController
     /**
      * @Route("/nouvelleSortie", name="new")
      */
-    public function nouvelleSorties(SortieRepository $sortieRepo, Request $request) : Response
+    public function nouvelleSorties(SortieRepository $sortieRepo, EtatRepository $etatRepository, Request $request) : Response
     {
         $newSortie = new Sortie();
         $sortiForm = $this->createForm(SortieType::class, $newSortie);
         $boutonClique = $request->request->get('validation');
         $sortiForm->handleRequest($request);
         if($boutonClique == 'enregistrer'){
-            $newSortie->setEtat();
+            $etat = $etatRepository->findOneBy(['id'=>'1']);
+            $newSortie->setEtat($etat);
         }
+        dump($newSortie);
 
         return $this->render('sorties/nouvelleSorties.html.twig', [
             "sortieForm" => $sortiForm->createView(),

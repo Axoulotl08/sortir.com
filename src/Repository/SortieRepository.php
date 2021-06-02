@@ -112,8 +112,10 @@ class SortieRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->getArrayResult();
 
-                $query = $query
-                    ->orWhere($query->expr()->notIn('sorties.id',array_keys($queryListActiviteInscrit)));
+                if(!empty($queryListActiviteInscrit)) {
+                    $query = $query
+                        ->orWhere($query->expr()->notIn('sorties.id', array_keys($queryListActiviteInscrit)));
+                }
             }
 
 
