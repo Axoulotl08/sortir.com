@@ -5,7 +5,9 @@ namespace App\Controller;
 
 
 use App\Data\SearchData;
+use App\Entity\Sortie;
 use App\Form\SearchType;
+use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,9 +26,16 @@ class GestionSortiesController extends AbstractController
     public function listeSorties(SortieRepository $sortieRepo, Request $request ): Response
     {
         $data = new SearchData();
+        if ($data->campus == null){
+            $data->campus = $this->getUser()->getParticipant()->getCampus();
+        }
+
         $formFilter = $this->createForm(SearchType::class, $data);
         $formFilter->handleRequest($request);
         $data->particiantid = $this->getUser()->getParticipant()->getId();
+
+        dump($data);
+
 
         $listeSorties = $sortieRepo->findSearch($data);
         //TODO modifier la requete pour ameliorer
@@ -48,6 +57,21 @@ class GestionSortiesController extends AbstractController
 
         return $this->render('sorties/detailsSorties.html.twig', [
             "sortie" => $sortie
+        ]);
+
+    }
+
+    /**
+     * @Route("/nouvelleSortie", name="new")
+     */
+    public function nouvelleSorties(SortieRepository $sortieRepo) : Response
+    {
+        $newSortie = new Sortie();
+        $sortiForm = $this->createForm(SortieType::class, $newSortie);
+
+
+        return $this->render('sorties/nouvelleSorties.html.twig', [
+            "sortieForm" => $sortiForm->createView(),
         ]);
 
     }

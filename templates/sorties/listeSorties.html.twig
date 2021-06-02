@@ -19,7 +19,7 @@
         <div class="categorieFiltre">
             <div class="champFiltre">
                 {{ form_label(formFilter.campus) }}
-                {{ form_widget(formFilter.campus) }}
+                {{ form_widget(formFilter.campus, {'attr': {'value':connectUserParticipant.campus.nom}}) }}
             </div>
             <div class="champFiltre">
                 {{ form_label(formFilter.titleSearch) }}
@@ -101,6 +101,9 @@
                 {%  endfor %}
             </tbody>
         </table>
+        <div>
+            <a href=""><button class="create" type="button">Créer une sortie</button></a>
+        </div>
     </div>
 
 

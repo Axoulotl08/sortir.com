@@ -52,6 +52,7 @@ class SortieRepository extends ServiceEntityRepository
     public function findSearch(\App\Data\SearchData $data)
     {
 
+
         $query = $this
             ->createQueryBuilder('sorties')
             ->leftJoin('sorties.organisateur', 'organisateur')
@@ -93,13 +94,11 @@ class SortieRepository extends ServiceEntityRepository
                     ->setParameter('oId', $data->particiantid);
             }
 
-
             if(!empty($data->estInscrit)){
                 $query = $query
                     ->orWhere('participants.id = :pId')
                     ->setParameter('pId', $data->particiantid);
             }
-
 
             if(!empty($data->nEstPasInscrit)) {
                 $queryListActiviteInscrit = $this
@@ -117,9 +116,10 @@ class SortieRepository extends ServiceEntityRepository
                     ->orWhere($query->expr()->notIn('sorties.id',array_keys($queryListActiviteInscrit)));
             }
 
+
             if(!empty($data->passee)){
                 $query = $query
-                    ->orWhere('sorties.dateHeureDebut <= :sDateDuJours')
+                    ->andWhere('sorties.dateHeureDebut <= :sDateDuJours')
                     ->setParameter('sDateDuJours', new \DateTime());
             }
 

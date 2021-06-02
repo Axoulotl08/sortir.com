@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="infosSortie">
+        <h2>Afficher une sortie</h2>
+        <div>
+            <div><span>Nom de la sortie:</span>{% block nomSortie %}{% endblock %}</div>
+            <div><span>Date et heure de la sortie:</span>{% block dateHeureDebut %}{% endblock %}</div>
+            <div><span>Date limite d'inscription:</span>{% block dateLimiteInscription %}{% endblock %}</div>
+            <div><span>Nombre de place:</span>{% block nombreDePlace %}{% endblock %}</div>
+            <div><span>Durée:</span>{% block duree %}{% endblock %}</div>
+            <div><span>Description et infos:</span>{% block description %}{% endblock %}</div>
+        </div>
+        <div>
+            <div><span>campus:</span>{% block campusOrganisateur %}{% endblock %}</div>
+            <div><span>Lieu:</span>{% block lieuSortie %}{% endblock %}</div>
+            <div><span>Rue:</span>{% block rueSortie %}{% endblock %}</div>
+            <div><span>Code Postale:</span>{% block codePostalSortie%}{% endblock %}</div>
+            <div><span>Latitude:</span>{% block LatitudeSortie%}{% endblock %}</div>
+            <div><span>Longitude:</span>{% block LongitudeSortie %}{% endblock %}</div>
+        </div>
+    </div>
+    <div class="participant">
+        <h3>Liste des participant inscrits</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>pseudo</th>
+                <th>nom</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for inscrit in sortie.inscrits %}
+                <tr>
+                    <td>{{ inscrit.user.username }}</td>
+                    <td>{{ inscrit.prenom }} {{ inscrit.nom }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}
+
+{% block title %}
+    detail de la sortie n°{{ sortie.id}} - {{ parent() }}
+{% endblock %}
+

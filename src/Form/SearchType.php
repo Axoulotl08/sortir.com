@@ -7,6 +7,7 @@ namespace App\Form;
 use App\Data\searchData;
 use App\Entity\Campus;
 use App\Entity\Participant;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -19,18 +20,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class SearchType extends AbstractType
 {
 
+
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
+        dump($options);
         $builder
             ->add('campus', EntityType::class, [
                 'label' => 'Campus',
                 'choice_label' => 'nom',
-                'placeholder' => 'Campus',
                 'required' => false,
                 'class' => Campus::class,
                 'expanded' => false,
-                'multiple' => false
+                'multiple' => false,
+                'empty_data' => $options,
             ])
             ->add('titleSearch', TextType::class, [
                 'label' => 'Le nom de la sortie contient',

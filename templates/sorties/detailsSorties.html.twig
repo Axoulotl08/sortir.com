@@ -1,29 +1,14 @@
-{% extends 'base.html.twig' %}
-
-{% block body %}
-    <div class="container">
-        <h2>Afficher une sortie</h2>
-        <div>
-            <div><span>Nom de la sortie:</span><span>{{ sortie.nom }}</span></div>
-            <div><span>Date et heure de la sortie:</span><span>{{ sortie.dateHeureDebut | date("d/m/Y h:i") }}</span></div>
-            <div><span>Date limite d'inscription:</span><span></span></div>
-            <div><span></span><span></span></div>
-            <div><span></span><span></span></div>
-            <div><span></span><span></span></div>
-        </div>
-        <div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-    <h2></h2>
-{% endblock %}
-
-{% block title %}
-    detail de la sortie n°{{ sortie.id}} - {{ parent() }}
-{% endblock %}
-
+{% embed 'sorties/_templateSorties.html.twig' %}
+    {% block nomSortie %}<span>nom Sortie</span>{% endblock %}
+    {% block dateHeureDebut %}<span>{{ sortie.dateHeureDebut | date("d/m/Y h:i") }}</span>{% endblock %}
+    {% block dateLimiteInscription %}<span>{{ sortie.dateLimiteInscription | date("d/m/Y") }}</span>{% endblock %}
+    {% block nombreDePlace %}<span>{{ sortie.nbInscriptionsMax }}</span>{% endblock %}
+    {% block duree %}<span>{{ sortie.duree }}</span>{% endblock %}
+    {% block description %}<span>{{ sortie.infosSortie }}</span>{% endblock %}
+    {% block campusOrganisateur %}<span>{{ sortie.siteOrganisateur.nom }}</span>{% endblock %}
+    {% block lieuSortie %}<span>{{ sortie.lieu.nom }}</span>{% endblock %}
+    {% block rueSortie %}<span>{{ sortie.lieu.rue }}</span>{% endblock %}
+    {% block codePostalSortie%}<span>{{ sortie.lieu.ville.codePostal }}</span>{% endblock %}
+    {% block LatitudeSortie%}<span>{{ sortie.lieu.latitude }}</span>{% endblock %}
+    {% block LongitudeSortie %}<span>{{ sortie.lieu.longitude }}</span>{% endblock %}
+{% endembed %}
