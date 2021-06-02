@@ -1,4 +1,10 @@
 {% embed 'sorties/_templateSorties.html.twig' %}
+
+
+    {% block title %}
+        detail de la sortie n°{{ sortie.id}} - {{ parent() }}
+    {% endblock %}
+
     {% block nomSortie %}<span>nom Sortie</span>{% endblock %}
     {% block dateHeureDebut %}<span>{{ sortie.dateHeureDebut | date("d/m/Y h:i") }}</span>{% endblock %}
     {% block dateLimiteInscription %}<span>{{ sortie.dateLimiteInscription | date("d/m/Y") }}</span>{% endblock %}
@@ -11,4 +17,27 @@
     {% block codePostalSortie%}<span>{{ sortie.lieu.ville.codePostal }}</span>{% endblock %}
     {% block LatitudeSortie%}<span>{{ sortie.lieu.latitude }}</span>{% endblock %}
     {% block LongitudeSortie %}<span>{{ sortie.lieu.longitude }}</span>{% endblock %}
+
+    {% block listeOuBoutton %}
+        <div class="participant">
+            <h3>Liste des participant inscrits</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>pseudo</th>
+                    <th>nom</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for inscrit in sortie.inscrits %}
+                    <tr>
+                        <td>{{ inscrit.user.username }}</td>
+                        <td>{{ inscrit.prenom }} {{ inscrit.nom }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    {% endblock %}
 {% endembed %}

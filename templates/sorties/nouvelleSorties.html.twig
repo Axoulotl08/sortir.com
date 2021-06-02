@@ -1,10 +1,26 @@
-{% extends 'base.html.twig' %}
+{% embed 'sorties/_templateSorties.html.twig' %}
 
-{% block body %}
-    {{ form(sortieForm) }}
-{% endblock %}
 
-{% block title %}
-    nouvelle sortie - {{ parent() }}
-{% endblock %}
+    {% block title %}
+       new - {{ parent() }}
+    {% endblock %}
 
+
+    {% block formStart %}{{ form_start(sortieForm) }}{% endblock %}
+    {% block nomSortie %}{{ form_widget(sortieForm.nom) }}{% endblock %}
+
+    {% block dateHeureDebut %}{{ form_widget(sortieForm.dateHeureDebut) }}{% endblock %}
+    {% block dateLimiteInscription %}{{ form_widget(sortieForm.dateLimiteInscription) }}{% endblock %}
+    {% block nombreDePlace %}{{ form_widget(sortieForm.nbInscriptionsMax) }}{% endblock %}
+    {% block duree %}{{ form_widget(sortieForm.duree) }}{% endblock %}
+    {% block description %}{{ form_widget(sortieForm.infosSortie) }}{% endblock %}
+    {% block campusOrganisateur %}<span>{{ app.user.participant.campus.nom }}</span>{% endblock %}
+    {% block lieuSortie %}{{ form_widget(sortieForm.lieu) }}{% endblock %}
+    {% block rueSortie %}<span></span>{% endblock %}
+    {% block codePostalSortie%}<span></span>{% endblock %}
+    {% block LatitudeSortie%}<span></span>{% endblock %}
+    {% block LongitudeSortie %}<span></span>{% endblock %}
+    {% block listeOuBoutton %}<button name="validation" value="enregistrer">enregistrer</button><button name="validation" value="publier">publier la sortie</button><button name="validation" value="annuler">annuler</button>{% endblock %}
+    {% block formEnd  %}{{ form_end(sortieForm, ) }}{% endblock %}
+
+{% endembed %}

@@ -64,11 +64,15 @@ class GestionSortiesController extends AbstractController
     /**
      * @Route("/nouvelleSortie", name="new")
      */
-    public function nouvelleSorties(SortieRepository $sortieRepo) : Response
+    public function nouvelleSorties(SortieRepository $sortieRepo, Request $request) : Response
     {
         $newSortie = new Sortie();
         $sortiForm = $this->createForm(SortieType::class, $newSortie);
-
+        $boutonClique = $request->request->get('validation');
+        $sortiForm->handleRequest($request);
+        if($boutonClique == 'enregistrer'){
+            $newSortie->setEtat();
+        }
 
         return $this->render('sorties/nouvelleSorties.html.twig', [
             "sortieForm" => $sortiForm->createView(),
