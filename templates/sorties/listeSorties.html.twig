@@ -83,7 +83,6 @@
                                     modifier - publier
                                 {% else %}
                                     <a href="{{ path('sortie_details', {id: sortie.id}) }}">afficher</a>
-
                                 {% endif %}
                                 {% if sortie.etat.libelle == "Ouverte" %}
                                     annuler
@@ -91,9 +90,9 @@
                             {% else %}
                                 <a href="{{ path('sortie_details', {id: sortie.id}) }}">afficher</a>
                                 {%  if connectUserParticipant in sortie.inscrits %}
-                                    se desister
-                                {% else %}
-                                    s'inscrire
+                                    <a href="{{ path('desinscription_sortie', {idSortie : sortie.id, idParticipant : connectUserParticipant.id }) }}">Se désister</a>
+                                {% elseif sortie.inscrits|length < sortie.nbInscriptionsMax and "now"|date("Y-m-d") < sortie.dateLimiteInscription|date("Y-m-d") %}
+                                    <a href="{{ path('inscription_sortie', {idSortie : sortie.id, idParticipant : connectUserParticipant.id }) }}">S'inscrire</a>
                                 {% endif %}
                             {% endif %}
                         </th>
