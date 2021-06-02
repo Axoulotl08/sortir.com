@@ -37,11 +37,28 @@ header{
 
     padding:20px;
 }
+
+.affichage_profil{
+    text-align: center;
+}
+.container {
+    width: content-box;
+    border: tomato;
+    border-width: 10px;
+}
+
 .info_user,
 .info_jour
 {
     display: flex;
     justify-content: flex-end;
+}
+
+img{
+    max-width: 200px;
+    height: auto;
+    margin:auto;
+    display:flex
 }
 
 /* css du tableau */

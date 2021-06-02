@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="container">
+    <img src="{{ asset('images/profils/' ~ user.participant.imageName) }}" alt="Photo de {{ user.username }}" class="affichage_profil">
+    <div class="affichage_profil">{{ user.username }}</div><br>
+    <div class="affichage_profil">Prénom : {{ user.participant.prenom}} </div><br>
+    <div class="affichage_profil">Nom : {{ user.participant.nom }}</div><br>
+    <div class="affichage_profil">Téléphone : {{ user.participant.telephone }}</div><br>
+    <div class="affichage_profil">Email : {{ user.participant.mail }}</div><br>
+    <div class="affichage_profil">Campus : {{ user.participant.campus.nom }}</div>
+    <div class="affichage_profil"><a href="{{ path('sortie_liste') }}" title="Retour à la liste des sortie">Retour</a></div>
+</section>
+{% endblock %}
+
+{% block title %}
+    Profil de {{ user.username }} - {{ parent() }}
+{% endblock %}
+
