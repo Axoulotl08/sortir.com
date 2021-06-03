@@ -149,4 +149,19 @@ class Lieu
 
         return $this;
     }
+
+
+    public function jsonSerialize()
+    {
+        return
+            [
+                'id'   => $this->getId(),
+                'nom' => $this->getNom(),
+                'rue' => $this->getRue(),
+                'latitude' => $this->getLatitude(),
+                'longitude' => $this->getLongitude(),
+                'codePostal' => $this->getVille()->getCodePostal(),
+            ];
+    }
+
 }

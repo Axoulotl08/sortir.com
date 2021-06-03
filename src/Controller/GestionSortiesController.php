@@ -11,6 +11,8 @@ use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,12 +35,13 @@ class GestionSortiesController extends AbstractController
 
         $formFilter = $this->createForm(SearchType::class, $data);
         $formFilter->handleRequest($request);
+
+
+
+
         $data->particiantid = $this->getUser()->getParticipant()->getId();
 
-
-
         $listeSorties = $sortieRepo->findSearch($data);
-        //TODO modifier la requete pour ameliorer
 
 
 
@@ -64,17 +67,32 @@ class GestionSortiesController extends AbstractController
     /**
      * @Route("/nouvelleSortie", name="new")
      */
-    public function nouvelleSorties(SortieRepository $sortieRepo, EtatRepository $etatRepository, Request $request) : Response
+    public function nouvelleSorties(SortieRepository $sortieRepo, EntityManagerInterface $entityManager, EtatRepository $etatRepository, Request $request) : Response
     {
         $newSortie = new Sortie();
         $sortiForm = $this->createForm(SortieType::class, $newSortie);
         $boutonClique = $request->request->get('validation');
         $sortiForm->handleRequest($request);
-        if($boutonClique == 'enregistrer'){
-            $etat = $etatRepository->findOneBy(['id'=>'1']);
-            $newSortie->setEtat($etat);
+
+
+
+        if($sortiForm->isSubmitted() && $sortiForm->isValid()){
+
+            $createur = $this->getUser()->getParticipant();
+            $newSortie->setOrganisateur($createur);
+            $newSortie->setSiteOrganisateur($createur->getCampus());
+
+            if($boutonClique == 'enregistrer'){
+                $etat = $etatRepository->findOneBy(['id'=>'1']);
+                $newSortie->setEtat($etat);
+            }elseif ($boutonClique == 'publier'){
+                $etat = $etatRepository->findOneBy(['id'=>'2']);
+                $newSortie->setEtat($etat);
+            }
+
+            $entityManager->persist($newSortie);
+            $entityManager->flush();
         }
-        dump($newSortie);
 
         return $this->render('sorties/nouvelleSorties.html.twig', [
             "sortieForm" => $sortiForm->createView(),

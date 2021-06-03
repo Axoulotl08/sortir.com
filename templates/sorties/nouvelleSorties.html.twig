@@ -16,11 +16,49 @@
     {% block description %}{{ form_widget(sortieForm.infosSortie) }}{% endblock %}
     {% block campusOrganisateur %}<span>{{ app.user.participant.campus.nom }}</span>{% endblock %}
     {% block lieuSortie %}{{ form_widget(sortieForm.lieu) }}{% endblock %}
-    {% block rueSortie %}<span></span>{% endblock %}
-    {% block codePostalSortie%}<span></span>{% endblock %}
-    {% block LatitudeSortie%}<span></span>{% endblock %}
-    {% block LongitudeSortie %}<span></span>{% endblock %}
-    {% block listeOuBoutton %}<button name="validation" value="enregistrer">enregistrer</button><button name="validation" value="publier">publier la sortie</button><button name="validation" value="annuler">annuler</button>{% endblock %}
-    {% block formEnd  %}{{ form_end(sortieForm, ) }}{% endblock %}
+    {% block rueSortie %}<span id="rue"></span>{% endblock %}
+    {% block codePostalSortie%}<span id="codePostale"></span>{% endblock %}
+    {% block LatitudeSortie%}<span id="latitude"></span>{% endblock %}
+    {% block LongitudeSortie %}<span id="longitude"></span>{% endblock %}
+    {% block listeOuBoutton %}
+        <button name="validation" value="enregistrer">enregistrer</button>
+        <button name="validation" value="publier">publier la sortie</button>
+        <a href="{{ path('sortie_liste') }}">
+            <button type="button" name="validation" value="annuler">annuler</button>
+        </a>
+    {% endblock %}
+    {% block formEnd  %}{{ form_end(sortieForm ) }}{% endblock %}
+
+    {% block javascripts %}
+        <script>
+
+
+            miseAJourDeInfoLieu();
+
+            function miseAJourDeInfoLieu(){
+                let sortieSelectionne = document.querySelector('#sortie_lieu');
+                sortieSelectionne.addEventListener('change', ()=>{
+
+                    let lieuSelectionne = sortieSelectionne.value
+                    const url = new URL(window.location.origin + '/sortir.com/public');
+                    let queryString = '/ajax/donneesDuLieuSelectionne';
+                    console.log(url.pathname + queryString +"?lieuSelectionne=" + lieuSelectionne);
+                    fetch(url.pathname + queryString +"?lieuSelectionne=" + lieuSelectionne).then(retour=>{
+                        return retour.json();
+                    }).then((lieu)=>{
+                        console.log(lieu)
+                        document.querySelector('#rue').innerHTML = lieu['rue'];
+                        document.querySelector('#codePostale').innerHTML = lieu['codePostal'];
+                        document.querySelector('#latitude').innerHTML = lieu['latitude'];
+                        document.querySelector('#longitude').innerHTML = lieu['longitude'];
+
+                    }).catch(e => alert(e));
+                })
+            }
+
+
+
+        </script>
+    {% endblock %}
 
 {% endembed %}
