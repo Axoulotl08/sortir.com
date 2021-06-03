@@ -4,9 +4,16 @@
         <a class="link" aria-current="page" href="{{ path('sortie_liste') }}">Accueil</a>
         {% if app.user %}
             <a class="link" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
+            {% set roles = app.user.roles %}
+            {% for role in roles %}
+                {% if role == "ROLE_ADMIN" %}
+                    <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Inscription</a>
+                    {# <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Ville</a>
+                    <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Campus</a>#}
+                {% endif %}
+            {% endfor %}
         {% else %}
-           <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Inscription</a>
-           <a class="link" aria-current="page" href="{{ path('app_login') }}">Connexion</a>
+            <a class="link" aria-current="page" href="{{ path('app_login') }}">Connexion</a>
         {% endif %}
     </span>
 </header>
