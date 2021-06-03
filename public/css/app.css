@@ -160,3 +160,17 @@ button.create{
     width : 170px;
     margin-top: 10px;
 }
+
+.flash{
+    padding: 20px;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+    text-align: center;
+}
+.flash-success
+{
+    border: 2px solid green;
+    color: green;
+}

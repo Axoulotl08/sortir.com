@@ -2,7 +2,7 @@
 
 
     {% block title %}
-       créer une sortie - {{ parent() }}
+        modifier {{ sortie.id }} - {{ parent() }}
     {% endblock %}
 
 
@@ -16,13 +16,16 @@
     {% block description %}{{ form_widget(sortieForm.infosSortie) }}{% endblock %}
     {% block campusOrganisateur %}<span>{{ app.user.participant.campus.nom }}</span>{% endblock %}
     {% block lieuSortie %}{{ form_widget(sortieForm.lieu) }}{% endblock %}
-    {% block rueSortie %}<span id="rue"></span>{% endblock %}
-    {% block codePostalSortie%}<span id="codePostale"></span>{% endblock %}
-    {% block LatitudeSortie%}<span id="latitude"></span>{% endblock %}
-    {% block LongitudeSortie %}<span id="longitude"></span>{% endblock %}
+    {% block rueSortie %}<span id="rue">{{ sortie.lieu.rue }}</span>{% endblock %}
+    {% block codePostalSortie%}<span id="codePostale">{{ sortie.lieu.ville.codePostal }}</span>{% endblock %}
+    {% block LatitudeSortie%}<span id="latitude">{{ sortie.lieu.latitude }}</span>{% endblock %}
+    {% block LongitudeSortie %}<span id="longitude">{{ sortie.lieu.longitude }}</span>{% endblock %}
     {% block listeOuBoutton %}
         <button name="validation" value="enregistrer">enregistrer</button>
         <button name="validation" value="publier">publier la sortie</button>
+        <a href="{{ path('sortie_annuler', {'id': sortie.id }) }}">
+            <button type="button" name="validation" value="supprimer">supprimer la sortie</button>
+        </a>
         <a href="{{ path('sortie_liste') }}">
             <button type="button" name="validation" value="annuler">annuler</button>
         </a>
