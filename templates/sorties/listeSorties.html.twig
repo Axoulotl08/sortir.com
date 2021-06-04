@@ -14,7 +14,7 @@
         <div class="info_user">  Participant: {{ connectUser.username }}</div>
     </div>
 
-    <div class="filtre">
+    <div class="filtre smartphone">
         {{ form_start(formFilter) }}
         <div class="categorieFiltre">
             <div class="champFiltre">
@@ -58,25 +58,28 @@
                 <tr>
                     <th>Nom de la sortie</th>
                     <th>Date de la sortie</th>
-                    <th>Clôture</th>
-                    <th>Inscrits/place</th>
-                    <th>État</th>
-                    <th>Inscrit</th>
-                    <th>Organisateur</th>
-                    <th>Actions</th>
+                    <th>Lieu</th>
+                    <th class="smartphone">Clôture</th>
+                    <th class="smartphone">Inscrits/place</th>
+                    <th class="smartphone">État</th>
+                    <th class="smartphone">Inscrit</th>
+                    <th class="smartphone">Organisateur</th>
+                    <th class="smartphone">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {%  for sortie in listSorties %}
                     <tr>
-                        <th>{{ sortie.nom }}</th>
+                        <th><a class="desktop" href="{{ path('sortie_details', {id: sortie.id}) }}">{{ sortie.nom }}</a>
+                            <div class="smartphone"> {{ sortie.nom }}</div></th>
                         <th>{{ sortie.dateHeureDebut | date("d/m/Y h:i") }}</th>
-                        <th>{{ sortie.dateLimiteInscription | date("d/m/Y") }}</th>
-                        <th>{{ sortie.inscrits | length }}/{{ sortie.nbInscriptionsMax }}</th>
-                        <th>{{ sortie.etat.libelle }}</th>
-                        <th>{%  if connectUserParticipant in sortie.inscrits %}X{% endif %}</th>
-                        <th>{{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom |slice(0, 1)  }}</th>
-                        <th>
+                        <th>{{ sortie.lieu.ville.nom }}</th>
+                        <th class="smartphone">{{ sortie.dateLimiteInscription | date("d/m/Y") }}</th>
+                        <th class="smartphone">{{ sortie.inscrits | length }}/{{ sortie.nbInscriptionsMax }}</th>
+                        <th class="smartphone">{{ sortie.etat.libelle }}</th>
+                        <th class="smartphone">{%  if connectUserParticipant in sortie.inscrits %}X{% endif %}</th>
+                        <th class="smartphone">{{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom |slice(0, 1)  }}</th>
+                        <th class="smartphone">
 
                             {%  if connectUserParticipant is same as sortie.organisateur %}
                                 {% if sortie.etat.libelle == "Créee" %}
@@ -100,7 +103,7 @@
                 {%  endfor %}
             </tbody>
         </table>
-        <div>
+        <div class="smartphone">
             <a href="{{ path('sortie_new') }}"><button class="create" type="button">Créer une sortie</button></a>
         </div>
     </div>
