@@ -7,6 +7,7 @@ use App\Form\ImportCSVType;
 use App\Repository\CampusRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,7 @@ class AdminController extends AbstractController
      * @Route("/admin/ajoutUtilisateur", name="admin")
      */
 
-    public function index(Request $request,
+    public function ajoutParticipant(Request $request,
                           UserPasswordEncoderInterface $passwordEncoder,
                           UserRepository $userRepository, CampusRepository $campusRepository): Response
     {
@@ -41,17 +42,40 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/listeParticipant", name="liste_participant")
      */
-    public function listeParticipant(UserRepository $userRepository)
+    public function listeParticipant(UserRepository $userRepository,
+                                     Request $request,
+                                     EntityManagerInterface $entityManager)
     {
-        $user = $userRepository->findAll();
-        if(!user)
+
+        $users = $userRepository->findAll();
+        if($request->getMethod() == 'POST')
         {
-            //gérer l'erreur
+            foreach($users as $user)
+            {
+                if($request->request->get('inactiv_'.$user->getId()))
+                {
+                    $user->getParticipant()->setActif(false);
+                    $entityManager->persist($user);
+
+                }
+            }
+            $entityManager->flush();
+            foreach($users as $user)
+            {
+                if($request->request->get('supp_'.$user->getId()))
+                {
+                    $entityManager->remove($user);
+                    //$entityManager->persist($user);
+
+                }
+            }
+            $entityManager->flush();
+
+            return $this->redirectToRoute('liste_participant');
         }
 
-
-        $this->render('admin/listeParticipants.html.twig', [
-            'user' => $user
+        return $this->render('admin/listeParticipants.html.twig', [
+            'users' => $users
         ]);
     }
 }

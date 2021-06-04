@@ -28,6 +28,7 @@ class GestionSortiesController extends AbstractController
      */
     public function listeSorties(SortieRepository $sortieRepo, Request $request ): Response
     {
+        dump($request);
         $data = new SearchData();
         if ($data->campus == null){
             $data->campus = $this->getUser()->getParticipant()->getCampus();
@@ -149,7 +150,6 @@ class GestionSortiesController extends AbstractController
         $sortiForm = $this->createForm(SortieType::class, $annulerSortie);
 
         $sortiForm->handleRequest($request);
-
 
         $this->bouttonCliqueEtInfoUtilisateur($request, $annulerSortie, $etatRepository);
 

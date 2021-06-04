@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div>
+    <table class="listeSortie">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Mail</th>
+            <th>Telephone</th>
+            <th>Actif</th>
+            <th>Admin</th>
+            <th>Supprimer</th>
+            <th>Rendre incatif</th>
+        </tr>
+        </thead>
+        <form method="post" action="{{ path('liste_participant') }}">
+            <tbody>
+                {%  for user in users %}
+                    <tr>
+                        <th>{{ user.participant.nom }}</th>
+                        <th>{{ user.participant.prenom }}</th>
+                        <th>{{ user.participant.mail }}</th>
+                        <th>{{ user.participant.telephone }}</th>
+                        <th>{% if user.participant.actif %}X{% endif %}</th>
+                        <th>{% if user.participant.administrateur %}X{% endif %}</th>
+                        <th><input type="checkbox" name="supp_{{ user.id }}"></th>
+                        <th><input type="checkbox" name="inactiv_{{ user.id }}"></th>
+                    </tr>
+                {%  endfor %}
+            </tbody>
+            <button type="submit">Sauvegarder</button><button type="reset">Reset</button>
+        </form>
+    </table>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
