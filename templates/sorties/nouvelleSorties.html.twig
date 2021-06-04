@@ -1,4 +1,4 @@
-{% embed 'sorties/_templateSorties.html.twig' %}
+{% embed 'sorties/_templateSorties.html.twig' with {'ajoutVille' : 'oui', 'boutonSupprimer': 'non'}%}
 
 
     {% block title %}
@@ -20,13 +20,6 @@
     {% block codePostalSortie%}<span id="codePostale"></span>{% endblock %}
     {% block LatitudeSortie%}<span id="latitude"></span>{% endblock %}
     {% block LongitudeSortie %}<span id="longitude"></span>{% endblock %}
-    {% block listeOuBoutton %}
-        <button name="validation" value="enregistrer">enregistrer</button>
-        <button name="validation" value="publier">publier la sortie</button>
-        <a href="{{ path('sortie_liste') }}">
-            <button type="button" name="validation" value="annuler">annuler</button>
-        </a>
-    {% endblock %}
     {% block formEnd  %}{{ form_end(sortieForm ) }}{% endblock %}
 
     {% block javascripts %}

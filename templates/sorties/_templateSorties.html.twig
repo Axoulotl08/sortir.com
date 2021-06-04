@@ -14,16 +14,54 @@
         </div>
         <div>
             <div><span>campus:</span>{% block campusOrganisateur "" %}</div>
-            <div><span>Lieu:</span>{% block lieuSortie "" %}</div>
+            <div><span>Lieu:</span>{% block lieuSortie "" %}
+                {% if ajoutVille == 'oui' %} <button id="bouttonAjoutVille" type="button">+</button>{% endif %}
+            </div>
             <div><span>Rue:</span>{% block rueSortie "" %}</div>
             <div><span>Code Postale:</span>{% block codePostalSortie "" %}</div>
             <div><span>Latitude:</span>{% block LatitudeSortie "" %}</div>
             <div><span>Longitude:</span>{% block LongitudeSortie "" %}</div>
-
         </div>
     </div>
-    {% block listeOuBoutton "" %}
-    {% block formEnd "" %}
+    {% if ajoutVille == 'oui' %}
+        <button name="validation" value="enregistrer">enregistrer</button>
+        <button name="validation" value="publier">publier la sortie</button>
+        {% if boutonSupprimer == 'oui' %}
+            <a href="{{ path('sortie_annuler', {'id': sortie.id }) }}">
+                <button type="button" name="validation" value="supprimer">supprimer la sortie</button>
+            </a>
+        {%  endif %}
+        <a href="{{ path('sortie_liste') }}">
+            <button type="button" name="validation" value="annuler">annuler</button>
+        </a>
+        {% block formEnd "" %}
+
+        <div id="test"> test</div>
+    {%  else %}
+        <div class="participant">
+            <h3>Liste des participant inscrits</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>pseudo</th>
+                    <th>nom</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for inscrit in sortie.inscrits %}
+                    <tr>
+                        <td>{{ inscrit.user.username }}</td>
+                        <td>{{ inscrit.prenom }} {{ inscrit.nom }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    {% endif %}
+
+
+
 {% endblock %}
 
 {% block title %}
@@ -31,7 +69,99 @@
 {% endblock %}
 
 {% block javascripts %}
+    {% if ajoutVille == 'oui' %}
     <script>
+
+        const url = new URL(window.location.origin + '/sortir.com/public');
+        /* todo retirer /sortir.com/public en prod */
+
+        document.querySelector('#bouttonAjoutVille').addEventListener('click',(e)=>{
+            console.log(e);
+            (e.preventDefault());
+
+            let urlFormulaireLieu = '/ajax/nouveauLieu';
+
+            fetch(url.pathname + urlFormulaireLieu, {
+                headers:{
+                    "X-Requested-With":"XMLHttpRequest"
+                }
+            }).then(reponse=>{
+
+                return reponse.json();
+
+            }).then(content=>{
+                console.log(content)
+                document.querySelector('#test').innerHTML = content['content'];
+
+                traitementFormulaireLieu();
+            })
+        })
+
+        function traitementFormulaireLieu() {
+            const form = document.querySelector('form[name="lieu"]');
+            let urlFormulaireLieu = '/ajax/nouveauLieu';
+            let urlComplet = url.pathname + urlFormulaireLieu;
+            console.log(urlComplet);
+
+            form.addEventListener('submit', (e)=> {
+                e.preventDefault();
+                const formulaire = e.currentTarget;
+                formData = new FormData(formulaire);
+                plainFormData = Object.fromEntries(formData.entries());
+                const formDataJsonString = JSON.stringify(plainFormData);
+
+                console.log(formulaire);
+                console.log(formData);
+                for (var [key, value] of formData.entries()) {
+                    console.log(key, value);
+                }
+                fetch(urlComplet, {
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: formDataJsonString,
+                    method: "POST"
+                }).then(reponse => {
+
+                    return reponse.json();
+
+                })
+            })
+        }
+        /*function traitementFormulaireLieu() {
+            const form = document.querySelector('form[name="lieu"]');
+            const formPrincipal = document.querySelector('form[name="sortie"]')
+            form.addEventListener('submit', (e)=>{
+                e.preventDefault();
+                console.log('jusqueLaCaVa');
+                let lieuNom = form.lieu_nom.value;
+                let lieuRue = form.lieu_rue.value;
+                let lieuLat = form.lieu_latitude.value;
+                let lieuLong = form.lieu_longitude.value;
+                let lieuVille = form.lieu_ville.value;
+                let query = '?lieuNom=' + form.lieu_nom.value
+                    + '&lieuRue=' + form.lieu_rue.value
+                    + '&lieuLat=' + form.lieu_latitude.value
+                    + '&lieuLong=' + form.lieu_longitude.value
+                    + '&lieuVille=' + form.lieu_ville.value
+
+
+                console.log(query);
+
+                let urlFormulaireLieu = '/ajax/validationNouveauLieu'
+                fetch(url.pathname + urlFormulaireLieu + query, {
+                    headers:{
+                        "X-Requested-With":"XMLHttpRequest"
+                    }
+                }).then(()=>{
+                    document.querySelector('#test').innerHTML = '';
+                    formPrincipal.sortie_lieu.value = form.lieu_nom;
+                });
+
+
+            })
+
+        }*/
 
 
         miseAJourDeInfoLieu();
@@ -41,9 +171,11 @@
             sortieSelectionne.addEventListener('change', ()=>{
 
                 let lieuSelectionne = sortieSelectionne.value
-                const url = new URL(window.location.origin + '/sortir.com/public');
-                let queryString = '/ajax/donneesDuLieuSelectionne';
-                console.log(url.pathname + queryString +"?lieuSelectionne=" + lieuSelectionne);
+
+                let urlSuite = '/ajax/donneesDuLieuSelectionne';
+
+                console.log(url.pathname + urlSuite +"?lieuSelectionne=" + lieuSelectionne);
+
                 fetch(url.pathname + queryString +"?lieuSelectionne=" + lieuSelectionne).then(retour=>{
                     return retour.json();
                 }).then((lieu)=>{
@@ -56,9 +188,6 @@
                 }).catch(e => alert(e));
             })
         }
-
-
-
     </script>
-
+    {% endif %}
 {% endblock %}

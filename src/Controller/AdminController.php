@@ -27,9 +27,10 @@ class AdminController extends AbstractController
         $import = new ImportCSV();
         $form = $this->createForm(ImportCSVType::class, $import);
         $form->handleRequest($request);
-
+        $import->setImageName('participant.csv');
         if($form->isSubmitted() && $form->isValid())
         {
+            dd($import);
             $participant = $import->importCSV($campusRepository);
         }
 

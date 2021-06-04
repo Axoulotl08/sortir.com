@@ -15,7 +15,7 @@
         <a href="{{ path('sortie_liste') }}">
             <button type="button" name="validation" value="annuler">annuler</button>
         </a>
-        {{ form_end(sortieForm, {'render_rest':false}) }}
+        {{ form_end(sortieForm)}}
     </div>
 
 
@@ -23,7 +23,17 @@
 {% endblock %}
 {% block javascripts %}
     <script>
-        document.getElementById('sortie_infosSortie').innerText='**ANNULER**';
+
+       document.getElementById('sortie_infosSortie').innerText='**ANNULER**';
+       document.querySelectorAll('input').forEach((ic)=>{
+            console.log(ic);
+            ic.style.display = "none";
+        })
+        document.querySelector('select').style.display="none";
+       document.querySelectorAll('label').forEach((label)=>{
+           label.style.display = "none"
+       })
+
     </script>
 
 {% endblock %}

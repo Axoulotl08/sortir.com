@@ -1,4 +1,4 @@
-{% embed 'sorties/_templateSorties.html.twig' %}
+{% embed 'sorties/_templateSorties.html.twig' with {'ajoutVille' : 'none', 'boutonSupprimer': 'non'} %}
 
 
     {% block title %}
@@ -17,27 +17,4 @@
     {% block codePostalSortie%}<span>{{ sortie.lieu.ville.codePostal }}</span>{% endblock %}
     {% block LatitudeSortie%}<span>{{ sortie.lieu.latitude }}</span>{% endblock %}
     {% block LongitudeSortie %}<span>{{ sortie.lieu.longitude }}</span>{% endblock %}
-
-    {% block listeOuBoutton %}
-        <div class="participant">
-            <h3>Liste des participant inscrits</h3>
-            <table>
-                <thead>
-                <tr>
-                    <th>pseudo</th>
-                    <th>nom</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for inscrit in sortie.inscrits %}
-                    <tr>
-                        <td>{{ inscrit.user.username }}</td>
-                        <td>{{ inscrit.prenom }} {{ inscrit.nom }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
-        </div>
-    {% endblock %}
 {% endembed %}

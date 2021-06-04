@@ -10,6 +10,7 @@ use App\Form\SearchType;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
+use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -70,7 +71,8 @@ class GestionSortiesController extends AbstractController
     public function nouvelleSorties(
             SortieRepository $sortieRepo,
             EntityManagerInterface $entityManager,
-            EtatRepository $etatRepository, Request $request
+            EtatRepository $etatRepository,
+            Request $request
     ) : Response
     {
         $newSortie = new Sortie();
@@ -79,6 +81,7 @@ class GestionSortiesController extends AbstractController
 
 
         $this->bouttonCliqueEtInfoUtilisateur($request, $newSortie, $etatRepository);
+
 
         if($sortiForm->isSubmitted() && $sortiForm->isValid()){
 
@@ -92,6 +95,8 @@ class GestionSortiesController extends AbstractController
         return $this->render('sorties/nouvelleSorties.html.twig', [
             "sortieForm" => $sortiForm->createView(),
         ]);
+
+
 
     }
 
@@ -150,8 +155,9 @@ class GestionSortiesController extends AbstractController
 
         $sortiForm->handleRequest($request);
 
-
-        $this->bouttonCliqueEtInfoUtilisateur($request, $annulerSortie, $etatRepository);
+        dump($annulerSortie);
+        $annulerSortie->setEtat($etatRepository->find('7'));
+        dump($annulerSortie);
 
         if($sortiForm->isSubmitted() && $sortiForm->isValid()){
 
