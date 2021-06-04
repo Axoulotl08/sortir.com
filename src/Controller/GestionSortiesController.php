@@ -67,36 +67,125 @@ class GestionSortiesController extends AbstractController
     /**
      * @Route("/nouvelleSortie", name="new")
      */
-    public function nouvelleSorties(SortieRepository $sortieRepo, EntityManagerInterface $entityManager, EtatRepository $etatRepository, Request $request) : Response
+    public function nouvelleSorties(
+            SortieRepository $sortieRepo,
+            EntityManagerInterface $entityManager,
+            EtatRepository $etatRepository, Request $request
+    ) : Response
     {
         $newSortie = new Sortie();
         $sortiForm = $this->createForm(SortieType::class, $newSortie);
-        $boutonClique = $request->request->get('validation');
         $sortiForm->handleRequest($request);
 
 
+        $this->bouttonCliqueEtInfoUtilisateur($request, $newSortie, $etatRepository);
 
         if($sortiForm->isSubmitted() && $sortiForm->isValid()){
 
-            $createur = $this->getUser()->getParticipant();
-            $newSortie->setOrganisateur($createur);
-            $newSortie->setSiteOrganisateur($createur->getCampus());
-
-            if($boutonClique == 'enregistrer'){
-                $etat = $etatRepository->findOneBy(['id'=>'1']);
-                $newSortie->setEtat($etat);
-            }elseif ($boutonClique == 'publier'){
-                $etat = $etatRepository->findOneBy(['id'=>'2']);
-                $newSortie->setEtat($etat);
-            }
-
             $entityManager->persist($newSortie);
             $entityManager->flush();
+
+            $this->addFlash('success', 'la sortie a bien été ajoutée');
+            return $this->redirectToRoute('sortie_liste');
         }
 
         return $this->render('sorties/nouvelleSorties.html.twig', [
             "sortieForm" => $sortiForm->createView(),
         ]);
 
+    }
+
+    /**
+     * @Route("/modifier/{id}", name="modifier")
+     */
+    public function modifierSortie(
+            int $id,
+            SortieRepository $sortieRepo,
+            EntityManagerInterface $entityManager,
+            EtatRepository $etatRepository,
+            Request $request
+
+    ) : Response
+    {
+        $modifySortie = $sortieRepo->find($id);
+        $sortiForm = $this->createForm(SortieType::class, $modifySortie);
+
+        $sortiForm->handleRequest($request);
+
+
+        $this->bouttonCliqueEtInfoUtilisateur($request, $modifySortie, $etatRepository);
+
+        if($sortiForm->isSubmitted() && $sortiForm->isValid()){
+
+            $entityManager->persist($modifySortie);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'la sortie a bien été modifier');
+            return $this->redirectToRoute('sortie_liste');
+        }
+
+        return $this->render('sorties/modifierSorties.html.twig', [
+            "sortieForm" => $sortiForm->createView(),
+            'sortie' => $modifySortie
+        ]);
+    }
+
+
+
+    /**
+     * @Route("/annuler/{id}", name="annuler")
+     */
+    public function annulerSortie(
+        int $id,
+        SortieRepository $sortieRepo,
+        EntityManagerInterface $entityManager,
+        EtatRepository $etatRepository,
+        Request $request
+
+    ) : Response
+    {
+        $annulerSortie = $sortieRepo->find($id);
+
+        $sortiForm = $this->createForm(SortieType::class, $annulerSortie);
+
+        $sortiForm->handleRequest($request);
+
+
+        $this->bouttonCliqueEtInfoUtilisateur($request, $annulerSortie, $etatRepository);
+
+        if($sortiForm->isSubmitted() && $sortiForm->isValid()){
+
+            $entityManager->persist($annulerSortie);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'la sortie a bien été modifier');
+            return $this->redirectToRoute('sortie_liste');
+        }
+
+        return $this->render('sorties/annulerSorties.html.twig', [
+            "sortieForm" => $sortiForm->createView(),
+            'sortie' => $annulerSortie
+        ]);
+    }
+
+    /**
+     * function utilisé par deux des routes
+     * @param Request $request
+     * @param Sortie $sortieAHydrater
+     * @param EtatRepository $etatRepository
+     */
+    public function bouttonCliqueEtInfoUtilisateur(Request $request, Sortie $sortieAHydrater, EtatRepository $etatRepository): void
+    {
+        $boutonClique = $request->request->get('validation');
+        $createur = $this->getUser()->getParticipant();
+        $sortieAHydrater->setOrganisateur($createur);
+        $sortieAHydrater->setSiteOrganisateur($createur->getCampus());
+        if ($boutonClique == 'enregistrer') {
+            $etat = $etatRepository->findOneBy(['id' => '1']);
+            $sortieAHydrater->setEtat($etat);
+        } elseif ($boutonClique == 'publier') {
+            $etat = $etatRepository->findOneBy(['id' => '2']);
+            $sortieAHydrater->setEtat($etat);
+        }
     }
 }

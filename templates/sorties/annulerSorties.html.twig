@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  annuler {{ sortie.id }} - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div>
+        merci d'indiquer le motif de l'annulation
+        {{ form_start(sortieForm) }}
+        {{ form_widget(sortieForm.infosSortie) }}
+    </div>
+    <div>
+        <button>valider</button>
+        <a href="{{ path('sortie_liste') }}">
+            <button type="button" name="validation" value="annuler">annuler</button>
+        </a>
+        {{ form_end(sortieForm, {'render_rest':false}) }}
+    </div>
+
+
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        document.getElementById('sortie_infosSortie').innerText='**ANNULER**';
+    </script>
+
+{% endblock %}
