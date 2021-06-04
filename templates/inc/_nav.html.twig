@@ -1,13 +1,13 @@
 <header>
     <span class="navbar icon-navbar"><a class="brand" href="{{ path('sortie_liste') }}"><img class="logo" src="{{ asset('image/sortir.com.png')}}"></a></span> {# todo a remplacer par logo #}
     <span class="navbar lien">
-        <a class="link" aria-current="page" href="{{ path('sortie_liste') }}">Accueil</a>
+        <a class="link smartphone" aria-current="page" href="{{ path('sortie_liste') }}">Accueil</a>
         {% if app.user %}
-            <a class="link" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
+            <a class="link smartphone" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
             {% set roles = app.user.roles %}
             {% for role in roles %}
                 {% if role == "ROLE_ADMIN" %}
-                    <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Inscription</a>
+                    <a class="link smartphone" aria-current="page" href="{{ path('ajouter_participant') }}">Inscription</a>
                     {# <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Ville</a>
                     <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Campus</a>#}
                 {% endif %}

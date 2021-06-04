@@ -37,4 +37,21 @@ class AdminController extends AbstractController
             'formCSV' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/admin/listeParticipant", name="liste_participant")
+     */
+    public function listeParticipant(UserRepository $userRepository)
+    {
+        $user = $userRepository->findAll();
+        if(!user)
+        {
+            //gérer l'erreur
+        }
+
+
+        $this->render('admin/listeParticipants.html.twig', [
+            'user' => $user
+        ]);
+    }
 }
