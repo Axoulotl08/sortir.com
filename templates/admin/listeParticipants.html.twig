@@ -2,6 +2,7 @@
 
 {% block body %}
 <div>
+    <form method="post" action="{{ path('liste_participant') }}">
     <table class="listeSortie">
         <thead>
         <tr>
@@ -15,7 +16,7 @@
             <th>Rendre incatif</th>
         </tr>
         </thead>
-        <form method="post" action="{{ path('liste_participant') }}">
+
             <tbody>
                 {%  for user in users %}
                     <tr>
@@ -23,16 +24,17 @@
                         <th>{{ user.participant.prenom }}</th>
                         <th>{{ user.participant.mail }}</th>
                         <th>{{ user.participant.telephone }}</th>
-                        <th>{% if user.participant.actif %}X{% endif %}</th>
-                        <th>{% if user.participant.administrateur %}X{% endif %}</th>
+                        <th>{% if user.participant.actif %}<img  class="checked" src="https://img.icons8.com/pastel-glyph/64/000000/checked--v4.png"/>{% endif %}</th>
+                        <th>{% if user.participant.administrateur %}<img  class="checked" src="https://img.icons8.com/pastel-glyph/64/000000/checked--v4.png"/>{% endif %}</th>
                         <th><input type="checkbox" name="supp_{{ user.id }}"></th>
                         <th><input type="checkbox" name="inactiv_{{ user.id }}"></th>
                     </tr>
                 {%  endfor %}
             </tbody>
-            <button type="submit">Sauvegarder</button><button type="reset">Reset</button>
-        </form>
     </table>
+    <button type="submit">Sauvegarder</button><button type="reset">Reset</button>
+    </form>
+
 {% endblock %}
 
 {% block title %}
