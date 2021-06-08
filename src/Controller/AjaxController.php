@@ -81,10 +81,22 @@ class AjaxController extends AbstractController
     }
 
     /**
-     * @Route("/validationNouveauLieu", name="validationNouveauLieu")
+     * @Route("/lieuDependantDeVille", name="lieuDependantDeVille")
      */
-    public function misAJoursLieuEnFonctionDesVille(){
+    public function misAJoursLieuEnFonctionDesVille(EntityManagerInterface $entityManager, LieuRepository $lieuRepository, Request $request){
 
+        $idVille = $request->query->get("idVille");
+        $lieux = $lieuRepository->lieuSelonVille($idVille);
+
+        $tableauVille = [];
+        foreach($lieux as $lieu){
+            $tableauVille[] = [
+                "id"=>$lieu->getId(),
+                "nom"=>$lieu->getNom()
+            ];
+        }
+
+        return new JsonResponse($tableauVille);
     }
 
 }

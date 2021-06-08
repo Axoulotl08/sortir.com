@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Lieu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 
 /**
  * @method Lieu|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +48,14 @@ class LieuRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function lieuSelonVille($idVille)
+    {
+       $query = $this
+            ->createQueryBuilder('lieux')
+            ->where('lieux.ville = :idVille')
+            ->setParameter('idVille', $idVille)
+            ->getQuery()
+            ->getResult();
+        return $query;
+    }
 }

@@ -82,11 +82,8 @@ class SortieType extends AbstractType
 
         if ($ville){
             $lieuRepository = $this->entityManager->getRepository('App:Lieu');
-            $lieu = $lieuRepository->createQueryBuilder("l")
-                ->where('l.ville = :idVille')
-                ->setParameter("idVille", $ville->getId())
-                ->getQuery()
-                ->getResult();
+            $idVille =$ville->getId();
+            $lieu = $lieuRepository->lieuSelonVille($idVille);
         }
 
         $form->add('lieu', EntityType::class, [

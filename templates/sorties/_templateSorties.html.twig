@@ -13,7 +13,7 @@
         </div>
         <div>
             <div><span>campus:</span>{% block campusOrganisateur "" %}</div>
-            <div><span>ville:</span>{% block villeSortie "" %}
+            <div><span>ville:</span>{% block villeSortie "" %}</div>
             <div><span>Lieu:</span>{% block lieuSortie "" %}
                 {% if ajoutVille == 'oui' %} <button id="bouttonAjoutVille" type="button">+</button>{% endif %}
             </div>
@@ -83,29 +83,86 @@
 
         const url = new URL(window.location.origin + '/sortir.com/public');
         /* todo retirer /sortir.com/public en prod */
+        const contenuDivForm = document.querySelector('#modal');
 
-        document.querySelector('#bouttonAjoutVille').addEventListener('click',(e)=>{
-            console.log(e);
-            (e.preventDefault());
+        miseAJourDeInfoLieu();
+        affichageDuFormulaireNouveauLieu();
+        miseAjourLieuSuivantVille();
 
-            let urlFormulaireLieu = '/ajax/nouveauLieu';
+        /**
+         *function qui mes a jours les info du lieu séléctionner
+         */
+        function miseAJourDeInfoLieu(){
+            let selecteurLieu = document.querySelector('#sortie_lieu');
+            selecteurLieu.addEventListener('change', ()=>{
 
-            fetch(url.pathname + urlFormulaireLieu, {
-                headers:{
-                    "X-Requested-With":"XMLHttpRequest"
-                }
-            }).then(reponse=>{
+                let lieuSelectionne = selecteurLieu.value
 
-                return reponse.json();
+                let urlSuite = '/ajax/donneesDuLieuSelectionne';
 
-            }).then(content=>{
-                console.log(content)
-                document.querySelector('#modal').innerHTML = content['content'];
+                console.log(url.pathname + urlSuite +"?lieuSelectionne=" + lieuSelectionne);
 
-                traitementFormulaireLieu();
+                fetch(url.pathname + urlSuite +"?lieuSelectionne=" + lieuSelectionne).then(retour=>{
+                    return retour.json();
+                }).then((lieu)=>{
+                    console.log(lieu)
+                    document.querySelector('#rue').innerHTML = lieu['rue'];
+                    document.querySelector('#codePostale').innerHTML = lieu['codePostal'];
+                    document.querySelector('#latitude').innerHTML = lieu['latitude'];
+                    document.querySelector('#longitude').innerHTML = lieu['longitude'];
+
+                }).catch(e => alert(e));
             })
-        })
+        }
 
+        function miseAjourLieuSuivantVille(){
+            let selecteurVille = document.querySelector('#sortie_ville');
+            selecteurVille.addEventListener('change',()=>{
+                let villeSelectionne = selecteurVille.value;
+                let urlSuite = '/ajax/
+            })
+        }
+
+
+        /**
+         * affiche le formulaire d'ajout de ville lors d'un clique sur le plus
+         */
+        function affichageDuFormulaireNouveauLieu(){
+
+            document.querySelector('#bouttonAjoutVille').addEventListener('click',(e)=>{
+                (e.preventDefault());
+                let urlFormulaireLieu = '/ajax/nouveauLieu';
+
+                if(contenuDivForm.innerHTML == "modale"){
+                    fetch(url.pathname + urlFormulaireLieu, {
+                        headers:{
+                            "X-Requested-With":"XMLHttpRequest"
+                        }
+                    }).then(reponse=>{
+
+                        return reponse.json();
+
+                    }).then(content=>{
+                        console.log(content)
+                        contenuDivForm.innerHTML = content['content'];
+
+                        traitementFormulaireLieu();
+                    })
+                }else{
+                    contenuDivForm.innerHTML = "modale"
+                }
+
+            })
+        }
+
+
+        /**
+         * effectue la lecture du formulaire
+         * ajoute un lieu dans la bdd
+         * mets a jours les information lieu
+         * /!\ le lieu n'est pas encore selectionnable
+         */
+        // TODO rendre le lieu séléctionnable
         function traitementFormulaireLieu() {
             const form = document.querySelector('form[name="lieu"]');
             const selectLieu = document.querySelector('#sortie_lieu')
@@ -121,9 +178,6 @@
 
 
                 const formDataJsonString = JSON.stringify(plainFormData);
-
-                console.log(formulaire);
-                console.log(plainFormData);
                 fetch(urlComplet, {
                     headers: {
                         "X-Requested-With": "XMLHttpRequest"
@@ -135,50 +189,25 @@
                     return reponse.json();
 
                 }).then(listLieu=>{
-                    console.log(listLieu);
 
                     newSelect = '';
                     listLieu.forEach((lieu, key, tableauLieu) => {
-                       if(key === tableauLieu.length -1){
-                           newSelect += `<option value="${lieu.id}" selected="selected">${lieu.nom}</option>`;
-                           document.querySelector('#rue').innerHTML = lieu.rue;
-                           document.querySelector('#codePostale').innerHTML = lieu.codePostal;
-                           document.querySelector('#latitude').innerHTML = lieu.latitude;
-                           document.querySelector('#longitude').innerHTML = lieu.longitude;
-                       }
-                       newSelect += `<option value="${lieu.id}">${lieu.nom}</option>`;
+                        if(key === tableauLieu.length -1){
+                            newSelect += `<option value="${lieu.id}" selected="selected">${lieu.nom}</option>`;
+                            document.querySelector('#rue').innerHTML = lieu.rue;
+                            document.querySelector('#codePostale').innerHTML = lieu.codePostal;
+                            document.querySelector('#latitude').innerHTML = lieu.latitude;
+                            document.querySelector('#longitude').innerHTML = lieu.longitude;
+                        }
+                        newSelect += `<option value="${lieu.id}">${lieu.nom}</option>`;
                     })
                     selectLieu.innerHTML = newSelect;
-                    document.querySelector('#modal').innerHTML = "modale";
+                    contenuDivForm.innerHTML = "modale";
 
                 })
             })
         }
 
-        miseAJourDeInfoLieu();
-
-        function miseAJourDeInfoLieu(){
-            let sortieSelectionne = document.querySelector('#sortie_lieu');
-            sortieSelectionne.addEventListener('change', ()=>{
-
-                let lieuSelectionne = sortieSelectionne.value
-
-                let urlSuite = '/ajax/donneesDuLieuSelectionne';
-
-                console.log(url.pathname + urlSuite +"?lieuSelectionne=" + lieuSelectionne);
-
-                fetch(url.pathname + queryString +"?lieuSelectionne=" + lieuSelectionne).then(retour=>{
-                    return retour.json();
-                }).then((lieu)=>{
-                    console.log(lieu)
-                    document.querySelector('#rue').innerHTML = lieu['rue'];
-                    document.querySelector('#codePostale').innerHTML = lieu['codePostal'];
-                    document.querySelector('#latitude').innerHTML = lieu['latitude'];
-                    document.querySelector('#longitude').innerHTML = lieu['longitude'];
-
-                }).catch(e => alert(e));
-            })
-        }
     </script>
     {% endif %}
 {% endblock %}
