@@ -81,7 +81,7 @@
                         <th class="smartphone"><a href="{{ path('participant_afficher', {id:sortie.organisateur.id}) }}">
                                 {{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom |slice(0, 1)  }}</a></th>
                         <th class="smartphone">
-                            {% if is_granted("sortie_edit", sortie) and (sortie.etat.libelle == "Créee" or sortie.etat.libelle == "Ouverte") %}
+                            {% if is_granted("sortie_edit", sortie) and (sortie.etat.libelle == "Créée" or sortie.etat.libelle == "Ouverte") %}
                                     <a href="{{ path('sortie_modifier', {id: sortie.id}) }}">modifier</a>
                             {% endif %}
                             {% if is_granted('sortie_cancelled', sortie) and sortie.etat.libelle == "Ouverte" %}

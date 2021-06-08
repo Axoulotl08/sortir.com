@@ -87,32 +87,37 @@ class SortieRepository extends ServiceEntityRepository
 
 
 
-            if(!empty($data->organisateur)){
 
-                $query = $query
-                    ->orWhere('organisateur.id = :oId')
-                    ->setParameter('oId', $data->particiantid);
-            }
+        if(!empty($data->organisateur)){
 
-            if(!empty($data->estInscrit)){
-                $query = $query
-                    ->orWhere('participants.id = :pId')
-                    ->setParameter('pId', $data->particiantid);
-            }
+            $query = $query
+                ->andWhere('organisateur.id = :oId')
+                ->setParameter('oId', $data->particiantid);
+        }
 
-            if(!empty($data->nEstPasInscrit)) {
+        if(!empty($data->estInscrit)){
+            $query = $query
+                ->andWhere('participants.id = :pId')
+                ->setParameter('pId', $data->particiantid);
+        }
 
-                $query = $query
-                    ->orWhere(':pId NOT MEMBER OF sorties.inscrits')
-                    ->setParameter('pId', $data->particiantid);
-            }
+        if(!empty($data->nEstPasInscrit)) {
+
+            $query = $query
+                ->andWhere(':pId NOT MEMBER OF sorties.inscrits')
+                ->setParameter('pId', $data->particiantid);
+        }
 
 
-            if(!empty($data->passee)){
-                $query = $query
-                    ->andWhere('sorties.dateHeureDebut <= :sDateDuJours')
-                    ->setParameter('sDateDuJours', new \DateTime());
-            }
+        if(!empty($data->passee)){
+            $query = $query
+                ->andWhere('sorties.dateHeureDebut <= :sDateDuJours')
+                ->setParameter('sDateDuJours', new \DateTime());
+        }
+
+
+        $query = $query->andWhere('etat.id != :eID')
+                ->setParameter('eID',7);
 
         return $query->getQuery()->getResult();
     }

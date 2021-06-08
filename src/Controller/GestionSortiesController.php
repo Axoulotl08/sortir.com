@@ -110,7 +110,7 @@ class GestionSortiesController extends AbstractController
         $modifySortie = $sortieRepo->find($id);
         if(!$this->isGranted('sortie_edit', $modifySortie));
         {
-            $this->addFlash('Erreur', 'Vous n\'avez pas le droit de modifier cette activité');
+            $this->addFlash('erreur', 'Vous n\'avez pas le droit de modifier cette activité');
             return $this->redirectToRoute('sortie_liste');
         }
         $sortiForm = $this->createForm(SortieType::class, $modifySortie);
@@ -151,7 +151,7 @@ class GestionSortiesController extends AbstractController
         $annulerSortie = $sortieRepo->find($id);
         if(!$this->isGranted('sortie_cancelled', $annulerSortie));
         {
-            $this->addFlash('Erreur', 'Vous n\'avez pas le droit de supprimer cette activité');
+            $this->addFlash('erreur', 'Vous n\'avez pas le droit de supprimer cette activité');
             return $this->redirectToRoute('sortie_liste');
         }
         $sortiForm = $this->createForm(SortieType::class, $annulerSortie);

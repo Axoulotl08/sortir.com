@@ -200,3 +200,9 @@ button.create{
     border: 2px solid green;
     color: green;
 }
+
+.flash-erreur
+{
+    border: 2px solid red;
+    color: red;
+}
