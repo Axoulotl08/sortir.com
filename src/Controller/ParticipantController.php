@@ -36,8 +36,6 @@ class ParticipantController extends AbstractController
         }
         $user = $repository->find($id->getId());
 
-        dump($user);
-        //$participant = $user->getParticipant();
         $userForm = $this->createForm(ModificationProfilType::class, $user);
         $userForm->handleRequest($request);
 

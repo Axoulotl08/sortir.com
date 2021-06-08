@@ -78,23 +78,23 @@
                         <th class="smartphone">{{ sortie.inscrits | length }}/{{ sortie.nbInscriptionsMax }}</th>
                         <th class="smartphone">{{ sortie.etat.libelle }}</th>
                         <th class="smartphone">{%  if connectUserParticipant in sortie.inscrits %}X{% endif %}</th>
-                        <th class="smartphone">{{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom |slice(0, 1)  }}</th>
+                        <th class="smartphone"><a href="{{ path('participant_afficher', {id:sortie.organisateur.id}) }}">
+                                {{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom |slice(0, 1)  }}</a></th>
                         <th class="smartphone">
-
-                            {%  if connectUserParticipant is same as sortie.organisateur %}
-                                {% if sortie.etat.libelle == "Créee" %}
-                                    modifier - publier
-                                {% else %}
-                                    <a href="{{ path('sortie_details', {id: sortie.id}) }}">afficher</a>
-                                {% endif %}
-                                {% if sortie.etat.libelle == "Ouverte" %}
-                                    annuler
-                                {% endif %}
-                            {% else %}
+                            {% if is_granted("sortie_edit", sortie) and (sortie.etat.libelle == "Créee" or sortie.etat.libelle == "Ouverte") %}
+                                    <a href="{{ path('sortie_modifier', {id: sortie.id}) }}">modifier</a>
+                            {% endif %}
+                            {% if is_granted('sortie_cancelled', sortie) and sortie.etat.libelle == "Ouverte" %}
+                                <a href="{{ path('sortie_annuler', {id: sortie.id}) }}">annuler</a>
+                            {% endif %}
+                            {% if sortie.etat.libelle == "Ouverte" or sortie.etat.libelle == "Clôturée"
+                                or sortie.etat.libelle == "Activité en cours"
+                                or sortie.etat.libelle == "Activité en cours"%}
                                 <a href="{{ path('sortie_details', {id: sortie.id}) }}">afficher</a>
                                 {%  if connectUserParticipant in sortie.inscrits %}
                                     <a href="{{ path('desinscription_sortie', {idSortie : sortie.id, idParticipant : connectUserParticipant.id }) }}">Se désister</a>
-                                {% elseif sortie.inscrits|length < sortie.nbInscriptionsMax and "now"|date("Y-m-d") < sortie.dateLimiteInscription|date("Y-m-d") %}
+                                {% elseif sortie.inscrits|length < sortie.nbInscriptionsMax
+                                    and "now"|date("Y-m-d") < sortie.dateLimiteInscription|date("Y-m-d") and sortie.etat.libelle == "Ouverte" %}
                                     <a href="{{ path('inscription_sortie', {idSortie : sortie.id, idParticipant : connectUserParticipant.id }) }}">S'inscrire</a>
                                 {% endif %}
                             {% endif %}
@@ -107,8 +107,4 @@
             <a href="{{ path('sortie_new') }}"><button class="create" type="button">Créer une sortie</button></a>
         </div>
     </div>
-
-
-
-
 {%  endblock %}
