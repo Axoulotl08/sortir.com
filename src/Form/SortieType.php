@@ -119,8 +119,10 @@ class SortieType extends AbstractType
     function onPreSetData(FormEvent $event){
         $sortie = $event->getData();
         $formulaire = $event->getForm();
+        //dd($sortie->getLieu());
 
-        $villes = $sortie->getLieu()->getVille() ? $sortie->getLieu()->getVille() : null;
+
+        $villes = $sortie->getLieu() ? $sortie->getLieu()->getVille() : null;
         $this->ajouterChamps($formulaire, $villes);
     }
 }

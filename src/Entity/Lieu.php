@@ -16,11 +16,13 @@ class Lieu
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @group
      */
     private $nom;
 
@@ -161,6 +163,7 @@ class Lieu
                 'latitude' => $this->getLatitude(),
                 'longitude' => $this->getLongitude(),
                 'codePostal' => $this->getVille()->getCodePostal(),
+                'idVille' => $this->getVille()->getId(),
             ];
     }
 

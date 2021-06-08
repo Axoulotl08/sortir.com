@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/ajax", name="ajax_")
@@ -38,7 +39,12 @@ class AjaxController extends AbstractController
      * @Route("/nouveauLieu", name="nouveauLieu")
      */
 
-    public function nouveauLieu(LieuRepository $lieuRepository, Request $request, EntityManagerInterface $entityManager, VilleRepository $villeRepository): Response
+    public function nouveauLieu(
+        LieuRepository $lieuRepository,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        VilleRepository $villeRepository,
+        SerializerInterface $serializer): Response
     {
        $lieu=new lieu();
        $lieuForm = $this->createForm( LieuType::class, $lieu);
@@ -63,12 +69,13 @@ class AjaxController extends AbstractController
 
            $tableauListeLieu =[];
            $listeLieu = $lieuRepository->findAll();
+           //dd($listeLieu);
            $i=0;
            forEach ($listeLieu as $lieuDansListe){
               $tableauListeLieu[$i] = $lieuDansListe->jsonSerialize();
                $i++;
-
            };
+
            return new JsonResponse($tableauListeLieu);
        }
 
