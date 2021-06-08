@@ -24,7 +24,7 @@ class RegistrationController extends AbstractController
                              AppAuthenticator $authenticator): Response
     {
         $user = new User();
-        $user->setRoles(["ROLE_USER"]);
+
 
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -41,6 +41,14 @@ class RegistrationController extends AbstractController
                         $form->get('plainPassword')->getData()
                     )
                 );
+                if($user->getParticipant()->getAdministrateur())
+                {
+                    $user->setRoles(["ROLE_ADMIN"]);
+                }
+                else
+                {
+                    $user->setRoles(["ROLE_USER"]);
+                }
                 $user->setUsername(strtolower($user->getParticipant()->getNom()) .'-'. strtolower($user->getParticipant()->getPrenom()));
                 $user->getParticipant()->setActif(true);
                 $user->getParticipant()->setImageName('photo_defaut.jpg');
