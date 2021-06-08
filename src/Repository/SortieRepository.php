@@ -101,21 +101,10 @@ class SortieRepository extends ServiceEntityRepository
             }
 
             if(!empty($data->nEstPasInscrit)) {
-                $queryListActiviteInscrit = $this
-                    ->createQueryBuilder('listeSortiOuInscrit')
-                    ->leftJoin('listeSortiOuInscrit.inscrits', 'inscritsListeSortiOuInscrit')
-                    ->where('inscritsListeSortiOuInscrit.id = :pasId')
-                    ->setParameter('pasId', $data->particiantid)
-                    ->select('listeSortiOuInscrit.id as id')
-                    ->indexBy('listeSortiOuInscrit','listeSortiOuInscrit.id')
-                    ->groupBy('id')
-                    ->getQuery()
-                    ->getArrayResult();
 
-                if(!empty($queryListActiviteInscrit)) {
-                    $query = $query
-                        ->orWhere($query->expr()->notIn('sorties.id', array_keys($queryListActiviteInscrit)));
-                }
+                $query = $query
+                    ->orWhere(':pId NOT MEMBER OF sorties.inscrits')
+                    ->setParameter('pId', $data->particiantid);
             }
 
 

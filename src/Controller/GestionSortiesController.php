@@ -5,7 +5,9 @@ namespace App\Controller;
 
 
 use App\Data\SearchData;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
+use App\Form\LieuType;
 use App\Form\SearchType;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
@@ -37,14 +39,9 @@ class GestionSortiesController extends AbstractController
         $formFilter = $this->createForm(SearchType::class, $data);
         $formFilter->handleRequest($request);
 
-
-
-
         $data->particiantid = $this->getUser()->getParticipant()->getId();
 
         $listeSorties = $sortieRepo->findSearch($data);
-
-
 
         return $this->render('sorties/listeSorties.html.twig', [
             "listSorties" => $listeSorties,
@@ -114,7 +111,7 @@ class GestionSortiesController extends AbstractController
     {
         $modifySortie = $sortieRepo->find($id);
         $sortiForm = $this->createForm(SortieType::class, $modifySortie);
-
+        $sortiForm->get('ville')->setData($modifySortie->getLieu()->getVille());
         $sortiForm->handleRequest($request);
 
 

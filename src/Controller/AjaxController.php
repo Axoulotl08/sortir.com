@@ -20,6 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AjaxController extends AbstractController
 {
     /**
+     * permet de recuperer les informations concernant le lieux selectionnée dans les formulaire de création et de modification d'une sortie
      * @Route("/donneesDuLieuSelectionne", name="donnéesDuLieuSelectionne")
      */
     public function donnéesDuLieuSelectionne(LieuRepository $lieuRepository, Request $request): Response
@@ -37,30 +38,38 @@ class AjaxController extends AbstractController
      * @Route("/nouveauLieu", name="nouveauLieu")
      */
 
-    public function nouveauLieu(LieuRepository $lieuRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function nouveauLieu(LieuRepository $lieuRepository, Request $request, EntityManagerInterface $entityManager, VilleRepository $villeRepository): Response
     {
        $lieu=new lieu();
        $lieuForm = $this->createForm( LieuType::class, $lieu);
-       //$donnees = $request->get('json');
        $lieuForm->handleRequest($request);
-       dump($lieuForm);
 
        if($request->isMethod('POST')){
-           $data = json_decode($request->getContent(),true);
-           //dd($data);
-           $lieuForm->submit($data);
-           dd($lieuForm);
+           $data = json_decode($request->getContent(), true);
+           $data2 =[];
+           foreach ($data as $index=>$value){
+               if(strpos($index,'lieu[')===0){
+                   $index=substr($index,5,-1);
+                   $data2[$index] = $value;
+               }
+           }
+           $lieuForm->submit($data2);
        }
 
        if($lieuForm->isSubmitted()){
-           //ne passe pas dans le if
 
            $entityManager->persist($lieu);
            $entityManager->flush();
 
-           return new JsonResponse([
-               'content' => 'ok'
-           ]);
+           $tableauListeLieu =[];
+           $listeLieu = $lieuRepository->findAll();
+           $i=0;
+           forEach ($listeLieu as $lieuDansListe){
+              $tableauListeLieu[$i] = $lieuDansListe->jsonSerialize();
+               $i++;
+
+           };
+           return new JsonResponse($tableauListeLieu);
        }
 
        //me renvoi se resultat après soumission du formulaire
@@ -74,42 +83,8 @@ class AjaxController extends AbstractController
     /**
      * @Route("/validationNouveauLieu", name="validationNouveauLieu")
      */
+    public function misAJoursLieuEnFonctionDesVille(){
 
-    public function validationNouveauLieu(
-        LieuRepository $lieuRepository,
-        Request $request,
-        EntityManagerInterface $entityManager,
-        VilleRepository $villeRepository
-    ): Response
-    {
-        $lieu=new lieu();
-        $nomLieu = $request->get('lieuNom');
-        $lieuRue = $request->get('lieuRue');
-        $lieuLat = $request->get('lieuLat');
-        $lieuLong = $request->get('lieuLong');
-        $lieuVille = $request->get('lieuVille');
-
-        $lieuForm = $this->createForm( LieuType::class, $lieu);
-        if($lieuForm->isSubmitted() && $lieuForm->isValid()) {
-            dd($lieu);
-        }
-
-        $ville = $villeRepository->findOneBy(['id'=> $request->get('lieuVille')]);
-
-        $lieu->setNom($request->get('lieuNom'));
-        $lieu->setRue($request->get('lieuRue'));
-        $lieu->setLatitude($request->get('lieuLat'));
-        $lieu->setLongitude($request->get('lieuLong'));
-        $lieu->setVille($ville);
-        //dd($lieu);
-
-            $entityManager->persist($lieu);
-            $entityManager->flush();
-
-        return new JsonResponse([
-            'content' => 'ok'
-            ]);
     }
-
 
 }

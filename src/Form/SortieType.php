@@ -6,15 +6,29 @@ use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
+use App\Entity\Ville;
+use App\Repository\LieuRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SortieType extends AbstractType
 {
+
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -33,38 +47,57 @@ class SortieType extends AbstractType
                 'required' => false,
             ])
             ->add('nbInscriptionsMax')
-            ->add('infosSortie')
+            ->add('infosSortie')/*
+            ->add('ville', EntityType::class, [
+                'label'=>'ville',
+                'mapped' => false,
+                'choice_label' => 'nom',
+                'class' => Ville::class
+            ])
             ->add('lieu', EntityType::class, [
-                'label' => 'etat',
+                'label' => 'lieu',
                 'choice_label' => 'nom',
                 'required' => false,
                 'class' => Lieu::class,
                 'expanded' => false,
                 'multiple' => false,
-            ] )
-            /*
-            ->add('etat', EntityType::class, [
-                'label' => 'etat',
-                'choice_label' => 'libelle',
-                'required' => false,
-                'class' => Etat::class,
-                'expanded' => false,
-                'multiple' => false,
-            ] )
-            ->add('siteOrganisateur', EntityType::class, [
-                'label' => 'site Organisateur',
-                'choice_label' => 'nom',
-                'required' => false,
-                'class' => Campus::class,
-                'expanded' => false,
-                'multiple' => false,
-                'empty_data' => $options,
-            ])
+                'choices' => $choix = null,
+            ])*/
+        ->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'))
+        ->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'))
 
-            ->add('organisateur')
-            ->add('inscrits')
-            */
+
         ;
+    }
+
+    protected function ajouterChamps(FormInterface $form, Ville $ville = null){
+        $form->add('ville', EntityType::class, [
+            'label'=>'ville',
+            'mapped' => false,
+            'choice_label' => 'nom',
+            'class' => Ville::class
+        ]);
+
+        $lieu = [];
+
+        if ($ville){
+            $lieuRepository = $this->entityManager->getRepository('App:Lieu');
+            $lieu = $lieuRepository->createQueryBuilder("l")
+                ->where('l.ville = :idVille')
+                ->setParameter("idVille", $ville->getId())
+                ->getQuery()
+                ->getResult();
+        }
+
+        $form->add('lieu', EntityType::class, [
+            'label' => 'lieu',
+            'choice_label' => 'nom',
+            'required' => false,
+            'class' => Lieu::class,
+            'expanded' => false,
+            'multiple' => false,
+            'choices' => $lieu,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -72,5 +105,25 @@ class SortieType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Sortie::class,
         ]);
+    }
+
+    public function onPreSubmit(FormEvent $event)
+    {
+        $formulaire = $event->getForm();
+        $donnees = $event->getData();
+
+        $villes = $this->entityManager
+            ->getRepository('App:Ville')->find($donnees['ville']);
+
+        $this->ajouterChamps($formulaire, $villes);
+
+    }
+
+    function onPreSetData(FormEvent $event){
+        $sortie = $event->getData();
+        $formulaire = $event->getForm();
+
+        $villes = $sortie->getLieu()->getVille() ? $sortie->getLieu()->getVille() : null;
+        $this->ajouterChamps($formulaire, $villes);
     }
 }

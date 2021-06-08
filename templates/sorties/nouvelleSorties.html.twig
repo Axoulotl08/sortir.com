@@ -15,6 +15,7 @@
     {% block duree %}{{ form_widget(sortieForm.duree) }}{% endblock %}
     {% block description %}{{ form_widget(sortieForm.infosSortie) }}{% endblock %}
     {% block campusOrganisateur %}<span>{{ app.user.participant.campus.nom }}</span>{% endblock %}
+    {% block villeSortie %}{{ form_widget(sortieForm.ville) }}{% endblock %}
     {% block lieuSortie %}{{ form_widget(sortieForm.lieu) }}{% endblock %}
     {% block rueSortie %}<span id="rue"></span>{% endblock %}
     {% block codePostalSortie%}<span id="codePostale"></span>{% endblock %}

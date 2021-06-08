@@ -12,6 +12,7 @@
     {% block duree %}<span>{{ sortie.duree }}</span>{% endblock %}
     {% block description %}<span>{{ sortie.infosSortie }}</span>{% endblock %}
     {% block campusOrganisateur %}<span>{{ sortie.siteOrganisateur.nom }}</span>{% endblock %}
+    {% block villeSortie %}<span>{{ sortie.lieu.ville.nom }}</span>{% endblock %}
     {% block lieuSortie %}<span>{{ sortie.lieu.nom }}</span>{% endblock %}
     {% block rueSortie %}<span>{{ sortie.lieu.rue }}</span>{% endblock %}
     {% block codePostalSortie%}<span>{{ sortie.lieu.ville.codePostal }}</span>{% endblock %}
