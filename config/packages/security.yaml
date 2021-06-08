@@ -41,4 +41,4 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
-        - { path: ^/ajouterParticipant, roles: ROLE_ADMIN}
+        - { path: ^/admin, roles: ROLE_ADMIN}

@@ -6,7 +6,8 @@ use App\Data\ImportCSV;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichFileType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 
 class ImportCSVType extends AbstractType
@@ -14,8 +15,13 @@ class ImportCSVType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('imageFile', VichFileType::class, [
+            ->add('csvFileName', FileType::class, [
                 'label' => 'Fichier CSV',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([])
+                ]
             ])
         ;
     }

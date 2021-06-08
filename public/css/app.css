@@ -82,6 +82,11 @@ img{
     display:flex
 }
 
+.checked{
+    max-width: 30px;
+    height: auto;
+}
+
 /* css du tableau */
 
 table tbody tr:nth-child(even)

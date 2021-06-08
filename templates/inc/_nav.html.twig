@@ -8,6 +8,7 @@
             {% for role in roles %}
                 {% if role == "ROLE_ADMIN" %}
                     <a class="link smartphone" aria-current="page" href="{{ path('ajouter_participant') }}">Inscription</a>
+                    <a class="link smartphone" aria-current="page" href="{{ path('liste_participant') }}">Liste des participants</a>
                     {# <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Ville</a>
                     <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Campus</a>#}
                 {% endif %}
