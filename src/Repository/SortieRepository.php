@@ -61,6 +61,34 @@ class SortieRepository extends ServiceEntityRepository
             ->leftJoin('sorties.siteOrganisateur', 'campus')
             ->select('sorties','organisateur','etat','participants');
 
+
+        if(!empty($data->organisateur)){
+
+            $query = $query
+                ->orWhere('organisateur.id = :oId')
+                ->setParameter('oId', $data->particiantid);
+        }
+
+        if(!empty($data->estInscrit)){
+            $query = $query
+                ->orWhere('participants.id = :pId')
+                ->setParameter('pId', $data->particiantid);
+        }
+
+        if(!empty($data->nEstPasInscrit)) {
+
+            $query = $query
+                ->orWhere(':pId NOT MEMBER OF sorties.inscrits')
+                ->setParameter('pId', $data->particiantid);
+        }
+
+
+        if(!empty($data->passee)){
+            $query = $query
+                ->orWhere('sorties.dateHeureDebut <= :sDateDuJours')
+                ->setParameter('sDateDuJours', new \DateTime());
+        }
+
         if(!empty($data->campus)){
             $query = $query
                 ->andWhere('campus.id = :cId' )
@@ -83,36 +111,6 @@ class SortieRepository extends ServiceEntityRepository
             $query = $query
                 ->andWhere('sorties.dateHeureDebut <= :sDateFin')
                 ->setParameter('sDateFin', $data->dateIntervalFin);
-        }
-
-
-
-
-        if(!empty($data->organisateur)){
-
-            $query = $query
-                ->andWhere('organisateur.id = :oId')
-                ->setParameter('oId', $data->particiantid);
-        }
-
-        if(!empty($data->estInscrit)){
-            $query = $query
-                ->andWhere('participants.id = :pId')
-                ->setParameter('pId', $data->particiantid);
-        }
-
-        if(!empty($data->nEstPasInscrit)) {
-
-            $query = $query
-                ->andWhere(':pId NOT MEMBER OF sorties.inscrits')
-                ->setParameter('pId', $data->particiantid);
-        }
-
-
-        if(!empty($data->passee)){
-            $query = $query
-                ->andWhere('sorties.dateHeureDebut <= :sDateDuJours')
-                ->setParameter('sDateDuJours', new \DateTime());
         }
 
 
