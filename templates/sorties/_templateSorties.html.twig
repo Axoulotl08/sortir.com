@@ -27,11 +27,11 @@
         <button name="validation" value="enregistrer">enregistrer</button>
         <button name="validation" value="publier">publier la sortie</button>
         {% if boutonSupprimer == 'oui' %}
-            <a href="{{ path('sortie_annuler', {'id': sortie.id }) }}">
+            <a class="lienBoutton" href="{{ path('sortie_annuler', {'id': sortie.id }) }}">
                 <button type="button" name="validation" value="supprimer">supprimer la sortie</button>
             </a>
         {%  endif %}
-        <a href="{{ path('sortie_liste') }}">
+        <a class="lienBoutton" href="{{ path('sortie_liste') }}">
             <button type="button" name="validation" value="annuler">annuler</button>
         </a>
         {% block formEnd "" %}

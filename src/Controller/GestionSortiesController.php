@@ -108,7 +108,7 @@ class GestionSortiesController extends AbstractController
     ) : Response
     {
         $modifySortie = $sortieRepo->find($id);
-        if(!$this->isGranted('sortie_edit', $modifySortie));
+        if(!$this->isGranted('sortie_edit', $modifySortie))
         {
             $this->addFlash('erreur', 'Vous n\'avez pas le droit de modifier cette activité');
             return $this->redirectToRoute('sortie_liste');
@@ -149,7 +149,7 @@ class GestionSortiesController extends AbstractController
     ) : Response
     {
         $annulerSortie = $sortieRepo->find($id);
-        if(!$this->isGranted('sortie_cancelled', $annulerSortie));
+        if(!$this->isGranted('sortie_cancelled', $annulerSortie))
         {
             $this->addFlash('erreur', 'Vous n\'avez pas le droit de supprimer cette activité');
             return $this->redirectToRoute('sortie_liste');

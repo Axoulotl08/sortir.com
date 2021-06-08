@@ -172,6 +172,12 @@ button
     background-color: white;
     border-radius: 10px;
     cursor: pointer;
+    padding:10px;
+}
+
+#bouttonAjoutVille{
+    padding: 2px 5px !important;
+    font-weight: bolder;
 }
 
 button.categorieFiltre{
@@ -205,4 +211,8 @@ button.create{
 {
     border: 2px solid red;
     color: red;
+}
+
+a.lienBoutton{
+    text-decoration: none;
 }
