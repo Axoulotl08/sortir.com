@@ -1,4 +1,27 @@
     {{ form_start(lieuForm) }}
-    {{ form_widget(lieuForm) }}
-    <button type="Submit" id="boutonAjoutLieu">valider</button>
+    <h3>Ajouter un lieu</h3>
+    <div class="modalBlock">
+        <span class="modalLabel">{{ form_label(lieuForm.nom) }}:</span>
+        <span class="modalInput"> {{ form_widget(lieuForm.nom) }}</span>
+    </div>
+    <div class="modalBlock">
+        <span class="modalLabel">{{ form_label(lieuForm.rue) }}:</span>
+        <span class="modalInput"> {{ form_widget(lieuForm.rue) }}</span>
+    </div>
+    <div class="modalBlock">
+        <span class="modalLabel">{{ form_label(lieuForm.latitude) }}:</span>
+        <span class="modalInput"> {{ form_widget(lieuForm.latitude) }}</span>
+    </div>
+    <div class="modalBlock">
+        <span class="modalLabel">{{ form_label(lieuForm.longitude) }}:</span>
+        <span class="modalInput"> {{ form_widget(lieuForm.longitude) }}</span>
+    </div>
+    <div class="modalBlock">
+        <span class="modalLabel">{{ form_label(lieuForm.ville) }}:</span>
+        <span class="modalInput"> {{ form_widget(lieuForm.ville) }}</span>
+    </div>
+    <div class="modalBlock">
+        <button type="Submit" id="boutonAjoutLieu">valider</button>
+        <button type="Reset" id="boutonReturn">Annuler</button>
+    </div>
     {{ form_end(lieuForm) }}

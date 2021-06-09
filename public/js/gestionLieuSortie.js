@@ -80,6 +80,13 @@ function affichageDuFormulaireNouveauLieu(){
             }).then(content=>{
                 console.log(content)
                 contenuDivForm.innerHTML = content['content'];
+                document.querySelector('#modalMask').classList.add('modalMaskActive');
+                document.querySelector('#modalMask').classList.remove('modalMaskInactive');
+                document.querySelector('#boutonReturn').addEventListener('click',()=>{
+                    contenuDivForm.innerHTML = "modale"
+                    document.querySelector('#modalMask').classList.add('modalMaskInactive');
+                    document.querySelector('#modalMask').classList.remove('modalMaskActive');
+                })
 
                 traitementFormulaireLieu();
             }).catch(e=>{
@@ -87,6 +94,8 @@ function affichageDuFormulaireNouveauLieu(){
             })
         }else{
             contenuDivForm.innerHTML = "modale"
+            document.querySelector('#modalMask').classList.add('modalMaskInactive');
+            document.querySelector('#modalMask').classList.remove('modalMaskActive');
         }
 
     })
@@ -147,6 +156,8 @@ function traitementFormulaireLieu() {
             })
             selectLieu.innerHTML = newSelect;
             contenuDivForm.innerHTML = "modale";
+            document.querySelector('#modalMask').classList.add('modalMaskInactive');
+            document.querySelector('#modalMask').classList.remove('modalMaskActive');
 
         }).catch(e=>{
             alert("il y a eut une erreur dans l'execution de la demande d'ajout de lieu")

@@ -5,17 +5,18 @@
         detail de la sortie n°{{ sortie.id}} - {{ parent() }}
     {% endblock %}
 
-    {% block nomSortie %}<span>nom Sortie</span>{% endblock %}
-    {% block dateHeureDebut %}<span>{{ sortie.dateHeureDebut | date("d/m/Y h:i") }}</span>{% endblock %}
-    {% block dateLimiteInscription %}<span>{{ sortie.dateLimiteInscription | date("d/m/Y") }}</span>{% endblock %}
-    {% block nombreDePlace %}<span>{{ sortie.nbInscriptionsMax }}</span>{% endblock %}
-    {% block duree %}<span>{{ sortie.duree }}</span>{% endblock %}
-    {% block description %}<span>{{ sortie.infosSortie }}</span>{% endblock %}
-    {% block campusOrganisateur %}<span>{{ sortie.siteOrganisateur.nom }}</span>{% endblock %}
-    {% block villeSortie %}<span>{{ sortie.lieu.ville.nom }}</span>{% endblock %}
-    {% block lieuSortie %}<span>{{ sortie.lieu.nom }}</span>{% endblock %}
-    {% block rueSortie %}<span>{{ sortie.lieu.rue }}</span>{% endblock %}
-    {% block codePostalSortie%}<span>{{ sortie.lieu.ville.codePostal }}</span>{% endblock %}
-    {% block LatitudeSortie%}<span>{{ sortie.lieu.latitude }}</span>{% endblock %}
-    {% block LongitudeSortie %}<span>{{ sortie.lieu.longitude }}</span>{% endblock %}
+    {% block titre %}Informations sur la sortie "{{ sortie.nom | upper}}"{% endblock %}
+    {% block nomSortie %}{{ sortie.nom }}{% endblock %}
+    {% block dateHeureDebut %}{{ sortie.dateHeureDebut | date("d/m/Y h:i") }}{% endblock %}
+    {% block dateLimiteInscription %}{{ sortie.dateLimiteInscription | date("d/m/Y") }}{% endblock %}
+    {% block nombreDePlace %}{{ sortie.nbInscriptionsMax }}{% endblock %}
+    {% block duree %}{{ sortie.duree }}{% endblock %}
+    {% block description %}{{ sortie.infosSortie }}{% endblock %}
+    {% block campusOrganisateur %}{{ sortie.siteOrganisateur.nom }}{% endblock %}
+    {% block villeSortie %}{{ sortie.lieu.ville.nom }}{% endblock %}
+    {% block lieuSortie %}{{ sortie.lieu.nom }}{% endblock %}
+    {% block rueSortie %}{{ sortie.lieu.rue }}{% endblock %}
+    {% block codePostalSortie%}{{ sortie.lieu.ville.codePostal }}{% endblock %}
+    {% block LatitudeSortie%}{{ sortie.lieu.latitude }}{% endblock %}
+    {% block LongitudeSortie %}{{ sortie.lieu.longitude }}{% endblock %}
 {% endembed %}

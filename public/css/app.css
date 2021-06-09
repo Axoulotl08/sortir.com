@@ -213,6 +213,192 @@ button.create{
     color: red;
 }
 
+.alert{
+    padding: 20px;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+    text-align: center;
+}
+.alert-danger
+{
+    border: 2px solid red;
+    color: red;
+}
+
 a.lienBoutton{
     text-decoration: none;
+}
+
+h1{
+    text-align: center;
+}
+.infosSortie{
+    position: relative;
+    margin:auto;
+    display: flex;
+    justify-content: center;
+}
+
+.groupeInfo{
+    margin: 5px 20px;
+    width: 50%;
+}
+
+.blockInfo{
+    margin: 15px;
+}
+
+
+.blockLabelLeft{
+    display: inline-block;
+    width:40%
+}
+
+.blockLabelRight{
+    display: inline-block;
+    width:25%
+}
+
+.infoOrInput{
+    width:45%
+}
+
+textarea {
+    vertical-align: top;
+}
+
+.infoOrInput input,
+.infoOrInput select,
+.infoOrInput textarea
+{
+    width:40%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.bouttonSortie
+{
+    position: relative;
+    margin:auto;
+    display: flex;
+    justify-content: center;
+}
+
+.bouttonSortie button{
+    margin:10px;
+}
+
+
+.blockConnexion{
+
+}
+
+
+.groupeConnexion{
+    width: 50%;
+    position: relative;
+    margin: auto;
+    border: 2px solid black;
+    border-radius: 20px;
+    box-shadow: 20px 15px 25px black;
+    padding: 20px;
+
+}
+
+.blockConnexion{
+    position: relative;
+    margin: auto;
+    text-align: center;
+    padding: 10px;
+}
+
+.blockConnexion label{
+    display: inline-block;
+    width: 30%;
+}
+
+.blockConnexion input{
+    display: inline-block;
+    width: 30%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.rememberMe{
+    width:50% !important;
+}
+
+
+
+
+
+
+
+
+
+
+/*css de la popIn en lien avec js*/
+.modalMaskActive{
+    background-color:rgba(255,255,255,0.5);
+    cursor				: default;
+    /*display				: none;*/
+    position			: fixed;
+    width				: 100%;
+    height				: 100%;
+    text-align			: center;
+    top:0px;
+    left:0px;
+    z-index				: 5000;
+}
+
+.modalMaskInactive{
+   display				: none;
+}
+
+#modal{
+    /*display:none;*/
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 20px;
+    height: 40%;
+    width: 30%;
+    position: relative;
+    margin: auto;
+    top:20%;
+    padding: 60px;
+    text-align: center;
+    box-shadow: 20px 15px 25px black;
+}
+
+#modal h3{
+    margin-top: 1px;
+}
+
+#lieu div{
+    margin: 10px;
+}
+
+
+.modalLabel{
+    margin:10px;
+    display: inline-block;
+    width:150px;
+}
+
+.modalBlock button{
+    margin: 15px;
+}
+
+.modalInput input,
+.modalInput select
+{
+    padding:5px 0px;
+    display: inline-block;
+    width:180px;
+    border: 1px solid black;
+    border-radius: 5px;
 }

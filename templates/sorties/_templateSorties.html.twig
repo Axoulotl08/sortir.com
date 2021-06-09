@@ -1,75 +1,121 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="infosSortie">
-        <h2>Afficher une sortie</h2>
-        <div>
-            {% block formStart "" %}
-            <div><span>Nom de la sortie:</span>{% block nomSortie "" %}</div>
-            <div><span>Date et heure de la sortie:</span>{% block dateHeureDebut "" %}</div>
-            <div><span>Date limite d'inscription:</span>{% block dateLimiteInscription "" %}</div>
-            <div><span>Nombre de place:</span>{% block nombreDePlace "" %}</div>
-            <div><span>Durée:</span>{% block duree "" %} minutes</div>
-            <div><span>Description et infos:</span>{% block description "" %}</div>
-        </div>
-        <div>
-            <div><span>campus:</span>{% block campusOrganisateur "" %}</div>
-            <div><span>ville:</span>{% block villeSortie "" %}</div>
-            <div><span>Lieu:</span>{% block lieuSortie "" %}
-                {% if ajoutVille == 'oui' %} <button id="bouttonAjoutVille" type="button">+</button>{% endif %}
+    <div id="bodyLieuUnique">
+        <h1>{% block titre ""%}</h1>
+        <div class="infosSortie">
+            <div class="groupeInfo">
+                {% block formStart "" %}
+                <div class="blockInfo">
+                    <span class="blockLabel blockLabelLeft">Nom de la sortie:</span>
+                    <span class="infoOrInput">{% block nomSortie "" %}</span>
+                </div>
+                <div class="blockInfo">
+                    <span class="blockLabel blockLabelLeft">Date et heure de la sortie:</span>
+                    <span class="infoOrInput">{% block dateHeureDebut "" %}</span>
+                </div>
+                <div class="blockInfo">
+                    <span class="blockLabel blockLabelLeft">Date limite d'inscription:</span>
+                    <span class="infoOrInput">{% block dateLimiteInscription "" %}</span>
+                </div>
+                <div class="blockInfo">
+                    <span class="blockLabel blockLabelLeft">Nombre de place:</span>
+                    <span class="infoOrInput">{% block nombreDePlace "" %}</span>
+                </div>
+                <div class="blockInfo">
+                    <span class="blockLabel blockLabelLeft">Durée:</span>
+                    <span class="infoOrInput">{% block duree "" %} minutes</span>
+                </div>
+                <div class="blockInfo">
+                    <span class="blockLabel blockLabelLeft">Description et infos:</span>
+                    <span class="infoOrInput">{% block description "" %}</span>
+                </div>
             </div>
-            <div><span>Rue:</span>{% block rueSortie "" %}</div>
-            <div><span>Code Postale:</span>{% block codePostalSortie "" %}</div>
-            <div><span>Latitude:</span>{% block LatitudeSortie "" %}</div>
-            <div><span>Longitude:</span>{% block LongitudeSortie "" %}</div>
+            <div class="groupeInfo">
+                <div class="blockInfo">
+                    <span class="blockLabel blockLabelRight">campus:</span>
+                    <span class="infoOrInput">{% block campusOrganisateur "" %}</span>
+                </div>
+                <div class="blockInfo">
+                    <span class="blockLabel blockLabelRight">ville:</span>
+                    <span class="infoOrInput">{% block villeSortie "" %}</span>
+                </div>
+                <div class="blockInfo">
+                    <span class="blockLabel blockLabelRight">Lieu:</span>
+                    <span class="infoOrInput">{% block lieuSortie "" %}
+                    {% if ajoutVille == 'oui' %}
+                        <button id="bouttonAjoutVille" type="button">+</button>
+                    {% endif %}
+                    </span>
+                </div>
+                <div class="blockInfo">
+                    <span class="blockLabel blockLabelRight">Rue:</span>
+                    <span id="rue" class="infoOrInput">{% block rueSortie "" %}</span>
+                </div>
+                <div class="blockInfo">
+                    <span class="blockLabel blockLabelRight">Code Postale:</span>
+                    <span id="codePostale" class="infoOrInput">{% block codePostalSortie "" %}</span>
+                </div>
+                <div class="blockInfo">
+                    <span class="blockLabel blockLabelRight">Latitude:</span>
+                    <span id="latitude" class="infoOrInput">{% block LatitudeSortie "" %}</span>
+                </div>
+                <div class="blockInfo">
+                    <span class="blockLabel blockLabelRight">Longitude:</span>
+                    <span id="longitude" class="infoOrInput">{% block LongitudeSortie "" %}</span>
+                </div>
+            </div>
         </div>
-    </div>
-    {% if ajoutVille == 'oui' %}
-        <button name="validation" value="enregistrer">enregistrer</button>
-        <button name="validation" value="publier">publier la sortie</button>
-        {% if boutonSupprimer == 'oui' %}
-            <a class="lienBoutton" href="{{ path('sortie_annuler', {'id': sortie.id }) }}">
-                <button type="button" name="validation" value="supprimer">supprimer la sortie</button>
-            </a>
-        {%  endif %}
-        <a class="lienBoutton" href="{{ path('sortie_liste') }}">
-            <button type="button" name="validation" value="annuler">annuler</button>
-        </a>
-        {% block formEnd "" %}
+        {% if ajoutVille == 'oui' %}
+            <div class="bouttonSortie">
+                <button name="validation" value="enregistrer">enregistrer</button>
+                <button name="validation" value="publier">publier la sortie</button>
+                {% if boutonSupprimer == 'oui' %}
+                    <a class="lienBoutton" href="{{ path('sortie_annuler', {'id': sortie.id }) }}">
+                        <button type="button" name="validation" value="supprimer">supprimer la sortie</button>
+                    </a>
+                {% endif %}
+                <a class="lienBoutton" href="{{ path('sortie_liste') }}">
+                    <button type="button" name="validation" value="annuler">annuler</button>
+                </a>
+            </div>
+            {% block formEnd "" %}
 
+
+        {% else %}
+            <div class="participant">
+                <h3>Liste des participants inscrits</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>pseudo</th>
+                        <th>nom</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for inscrit in sortie.inscrits|slice(0,sortie.nbInscriptionsMax) %}
+                        <tr>
+                            <td>{{ inscrit.user.username }}</td>
+                            <td>{{ inscrit.prenom }} {{ inscrit.nom }}</td>
+                        </tr>
+                    {% endfor %}
+
+                    {% for i in 1..(sortie.nbInscriptionsMax-sortie.inscrits.count) %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+        {% endif %}</div>
+
+    <div id="modalMask" class="modalMaskInactive">
         <div id="modal">modale</div>
-    {%  else %}
-        <div class="participant">
-            <h3>Liste des participants inscrits</h3>
-            <table>
-                <thead>
-                <tr>
-                    <th>pseudo</th>
-                    <th>nom</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                {% for inscrit in sortie.inscrits|slice(0,sortie.nbInscriptionsMax) %}
-                    <tr>
-                        <td>{{ inscrit.user.username }}</td>
-                        <td>{{ inscrit.prenom }} {{ inscrit.nom }}</td>
-                    </tr>
-                {% endfor %}
-
-                {% for i in 1..(sortie.nbInscriptionsMax-sortie.inscrits.count)  %}
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                {% endfor %}
-
-                </tbody>
-            </table>
-
-        </div>
-    {% endif %}
-
-
+    </div>
 
 {% endblock %}
 

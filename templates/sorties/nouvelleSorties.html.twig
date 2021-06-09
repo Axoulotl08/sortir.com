@@ -5,7 +5,7 @@
        créer une sortie - {{ parent() }}
     {% endblock %}
 
-
+    {% block titre %}Créer une sortie{% endblock %}
     {% block formStart %}{{ form_start(sortieForm) }}{% endblock %}
     {% block nomSortie %}{{ form_widget(sortieForm.nom) }}{% endblock %}
 
@@ -14,13 +14,13 @@
     {% block nombreDePlace %}{{ form_widget(sortieForm.nbInscriptionsMax) }}{% endblock %}
     {% block duree %}{{ form_widget(sortieForm.duree) }}{% endblock %}
     {% block description %}{{ form_widget(sortieForm.infosSortie) }}{% endblock %}
-    {% block campusOrganisateur %}<span>{{ app.user.participant.campus.nom }}</span>{% endblock %}
+    {% block campusOrganisateur %}{{ app.user.participant.campus.nom }}{% endblock %}
     {% block villeSortie %}{{ form_widget(sortieForm.ville) }}{% endblock %}
     {% block lieuSortie %}{{ form_widget(sortieForm.lieu) }}{% endblock %}
-    {% block rueSortie %}<span id="rue"></span>{% endblock %}
-    {% block codePostalSortie%}<span id="codePostale"></span>{% endblock %}
-    {% block LatitudeSortie%}<span id="latitude"></span>{% endblock %}
-    {% block LongitudeSortie %}<span id="longitude"></span>{% endblock %}
+    {% block rueSortie %}{% endblock %}
+    {% block codePostalSortie%}{% endblock %}
+    {% block LatitudeSortie%}{% endblock %}
+    {% block LongitudeSortie %}{% endblock %}
     {% block formEnd  %}{{ form_end(sortieForm ) }}{% endblock %}
 
     {% block javascripts %}
