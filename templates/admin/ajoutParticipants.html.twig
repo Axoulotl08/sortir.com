@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ form_start(formCSV) }}
-    {{ form_row(formCSV) }}
-    <button>Ajouter !</button>
-    {{ form_end(formCSV) }}
+    <h1>Importer participants depuis un fichier CSV</h1>
+    <div class="blocImport">
+        {{ form_start(formCSV) }}
+        {{ form_row(formCSV) }}
+        <button>Ajouter !</button>
+        {{ form_end(formCSV) }}
+    </div>
+
 
 {% endblock %}
 

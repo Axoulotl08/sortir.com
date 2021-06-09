@@ -59,35 +59,58 @@ header{
     padding:20px;
 }
 
-.affichage_profil{
-    text-align: center;
-}
-.container {
-    width: content-box;
-    border: tomato;
-    border-width: 10px;
-}
 
-.info_user,
-.info_jour
+button
 {
-    display: flex;
-    justify-content: flex-end;
+    border: 2px solid black;
+    background-color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    padding:10px;
 }
 
-img{
-    max-width: 200px;
-    height: auto;
-    margin:auto;
-    display:flex
+
+/* page de connexion */
+
+.groupeConnexion{
+    width: 50%;
+    position: relative;
+    margin: auto;
+    border: 2px solid black;
+    border-radius: 20px;
+    box-shadow: 20px 15px 25px black;
+    padding: 20px;
+
 }
 
-.checked{
-    max-width: 30px;
-    height: auto;
+.blockConnexion{
+    position: relative;
+    margin: auto;
+    text-align: center;
+    padding: 10px;
 }
 
-/* css du tableau */
+.blockConnexion label{
+    display: inline-block;
+    width: 30%;
+}
+
+.blockConnexion input{
+    display: inline-block;
+    width: 30%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.rememberMe{
+    width:50% !important;
+}
+
+/*fin page de connexion */
+
+
+/* css des tableaux */
 
 table tbody tr:nth-child(even)
 {
@@ -143,6 +166,20 @@ table thead th
     color : black;
 }
 
+/* fin css des tableau */
+
+/* page listes sorties */
+
+.blockFiltres{
+    width:80%;
+    position: relative;
+    margin: auto;
+}
+
+.blockFiltres h3{
+    margin-bottom: 0;
+}
+
 .filtreSortie
 {
     width	: 100%;
@@ -166,18 +203,16 @@ input[type=checkbox]{
     cursor: pointer;
 }
 
-button
-{
-    border: 2px solid black;
-    background-color: white;
-    border-radius: 10px;
-    cursor: pointer;
-    padding:10px;
-}
 
-#bouttonAjoutVille{
-    padding: 2px 5px !important;
-    font-weight: bolder;
+.blockListe{
+    text-align: center;
+    display : flex;
+    justify-content: space-around;
+    margin-bottom: 1.5rem;
+}
+.blockSortie{
+    padding:0 20%;
+    text-align: center;
 }
 
 button.categorieFiltre{
@@ -193,6 +228,9 @@ button.create{
     margin-top: 10px;
 }
 
+/* fin css liste des sorties */
+
+/* mise en form des messages d'information*/
 .flash{
     padding: 20px;
     font-weight: bold;
@@ -227,13 +265,18 @@ button.create{
     color: red;
 }
 
-a.lienBoutton{
-    text-decoration: none;
-}
+/* fin mise en form des messages d'information*/
 
 h1{
     text-align: center;
 }
+
+/* mise en page des page sorties */
+
+a.lienBoutton{
+    text-decoration: none;
+}
+
 .infosSortie{
     position: relative;
     margin:auto;
@@ -291,55 +334,30 @@ textarea {
     margin:10px;
 }
 
-
-.blockConnexion{
-
+#bouttonAjoutVille{
+    padding: 2px 5px !important;
+    font-weight: bolder;
 }
 
 
-.groupeConnexion{
-    width: 50%;
-    position: relative;
-    margin: auto;
-    border: 2px solid black;
-    border-radius: 20px;
-    box-shadow: 20px 15px 25px black;
-    padding: 20px;
+/* page avec la listes des participant*/
+
+
+.listeParticipant{
+    margin:20px 20px 10px 20px;
 
 }
-
-.blockConnexion{
-    position: relative;
-    margin: auto;
-    text-align: center;
-    padding: 10px;
+.buttonParticipant{
+    margin: 0 20px;
 }
 
-.blockConnexion label{
+/*fin page de la liste des participants */
+
+/* page d'import CSV */
+
+#import_csv{
     display: inline-block;
-    width: 30%;
 }
-
-.blockConnexion input{
-    display: inline-block;
-    width: 30%;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 5px;
-}
-
-.rememberMe{
-    width:50% !important;
-}
-
-
-
-
-
-
-
-
-
 
 /*css de la popIn en lien avec js*/
 .modalMaskActive{
@@ -401,4 +419,35 @@ textarea {
     width:180px;
     border: 1px solid black;
     border-radius: 5px;
+}
+
+
+
+
+.affichage_profil{
+    text-align: center;
+}
+.container {
+    width: content-box;
+    border: tomato;
+    border-width: 10px;
+}
+
+.info_user,
+.info_jour
+{
+    display: flex;
+    justify-content: flex-end;
+}
+
+img{
+    max-width: 200px;
+    height: auto;
+    margin:auto;
+    display:flex
+}
+
+.checked{
+    max-width: 30px;
+    height: auto;
 }

@@ -14,48 +14,53 @@
         <div class="info_user">  Participant: {{ connectUser.username }}</div>
     </div>
 
-    <div class="filtre smartphone">
+    <div class="blockFiltres">
         <h3>Filtrer les sorties</h3>
-        {{ form_start(formFilter) }}
-        <div class="categorieFiltre">
-            <div class="champFiltre">
-                {{ form_label(formFilter.campus) }}
-                {{ form_widget(formFilter.campus, {'attr': {'value':connectUserParticipant.campus.nom}}) }}
+        <div class="filtreSortie smartphone">
+
+            {{ form_start(formFilter) }}
+            <div class="categorieFiltre">
+                <div class="champFiltre">
+                    {{ form_label(formFilter.campus) }}
+                    {{ form_widget(formFilter.campus, {'attr': {'value':connectUserParticipant.campus.nom}}) }}
+                </div>
+                <div class="champFiltre">
+                    {{ form_label(formFilter.titleSearch) }}
+                    {{ form_widget(formFilter.titleSearch) }}
+                </div>
+                <div class="champFiltre">
+                    Entre {{ form_widget(formFilter.dateIntervalDebut) }}
+                    et {{ form_widget(formFilter.dateIntervalFin) }}
+                </div>
             </div>
-            <div class="champFiltre">
-                {{ form_label(formFilter.titleSearch) }}
-                {{ form_widget(formFilter.titleSearch) }}
+            <div class="categorieFiltre">
+                <div>
+                    {{ form_widget(formFilter.organisateur) }}
+                    {{ form_label(formFilter.organisateur) }}
+                </div>
+                <div>
+                    {{ form_widget(formFilter.estInscrit) }}
+                    {{ form_label(formFilter.estInscrit) }}
+                </div>
+                <div>
+                    {{ form_widget(formFilter.nEstPasInscrit) }}
+                    {{ form_label(formFilter.nEstPasInscrit) }}
+                </div>
+                <div>
+                    {{ form_widget(formFilter.passee) }}
+                    {{ form_label(formFilter.passee) }}
+                </div>
             </div>
-            <div class="champFiltre">
-                Entre {{ form_widget(formFilter.dateIntervalDebut) }} et {{ form_widget(formFilter.dateIntervalFin) }}
-            </div>
+            <button class="categorieFiltre">Rechercher</button>
+            {{ form_widget(formFilter.particiantid, {'attr': {'value':connectUserParticipant.id}}) }}
+            {{ form_end(formFilter) }}
         </div>
-        <div class="categorieFiltre">
-            <div>
-                {{ form_widget(formFilter.organisateur) }}
-                {{ form_label(formFilter.organisateur) }}
-            </div>
-            <div>
-                {{ form_widget(formFilter.estInscrit) }}
-                {{ form_label(formFilter.estInscrit) }}
-            </div>
-            <div>
-                {{ form_widget(formFilter.nEstPasInscrit) }}
-                {{ form_label(formFilter.nEstPasInscrit) }}
-            </div>
-            <div>
-                {{ form_widget(formFilter.passee) }}
-                {{ form_label(formFilter.passee) }}
-            </div>
-        </div>
-        <button class="categorieFiltre">Rechercher</button>
-        {{ form_widget(formFilter.particiantid, {'attr': {'value':connectUserParticipant.id}}) }}
-        {{ form_end(formFilter)}}
     </div>
 
-    <div>
-        <table class="listeSortie">
-            <thead>
+    <div class="blockSortie">
+        <div class="blockListe">
+            <table class="listeSortie">
+                <thead>
                 <tr>
                     <th>Nom de la sortie</th>
                     <th>Date de la sortie</th>
@@ -67,33 +72,38 @@
                     <th class="smartphone">Organisateur</th>
                     <th class="smartphone">Actions</th>
                 </tr>
-            </thead>
-            <tbody>
-                {%  for sortie in listSorties %}
+                </thead>
+                <tbody>
+                {% for sortie in listSorties %}
                     <tr>
                         <th><a class="desktop" href="{{ path('sortie_details', {id: sortie.id}) }}">{{ sortie.nom }}</a>
-                            <div class="smartphone"> {{ sortie.nom }}</div></th>
+                            <div class="smartphone"> {{ sortie.nom }}</div>
+                        </th>
                         <th>{{ sortie.dateHeureDebut | date("d/m/Y h:i") }}</th>
                         <th>{{ sortie.lieu.ville.nom }}</th>
                         <th class="smartphone">{{ sortie.dateLimiteInscription | date("d/m/Y") }}</th>
                         <th class="smartphone">{{ sortie.inscrits | length }}/{{ sortie.nbInscriptionsMax }}</th>
                         <th class="smartphone">{{ sortie.etat.libelle }}</th>
-                        <th class="smartphone">{%  if connectUserParticipant in sortie.inscrits %}X{% endif %}</th>
-                        <th class="smartphone"><a href="{{ path('participant_afficher', {id:sortie.organisateur.id}) }}">
-                                {{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom |slice(0, 1)  }}</a></th>
+                        <th class="smartphone">{% if connectUserParticipant in sortie.inscrits %}X{% endif %}</th>
+                        <th class="smartphone">
+                            <a href="{{ path('participant_afficher', {id:sortie.organisateur.id}) }}">
+                                {{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom |slice(0, 1) }}
+                            </a>
+                        </th>
                         <th class="smartphone">
                             {% if is_granted("sortie_edit", sortie) and (sortie.etat.libelle == "Créée" or sortie.etat.libelle == "Ouverte") %}
-                                    <a href="{{ path('sortie_modifier', {id: sortie.id}) }}">modifier</a>
+                                <a href="{{ path('sortie_modifier', {id: sortie.id}) }}">modifier</a>
                             {% endif %}
                             {% if is_granted('sortie_cancelled', sortie) and sortie.etat.libelle == "Ouverte" %}
                                 <a href="{{ path('sortie_annuler', {id: sortie.id}) }}">annuler</a>
                             {% endif %}
                             {% if sortie.etat.libelle == "Ouverte" or sortie.etat.libelle == "Clôturée"
                                 or sortie.etat.libelle == "Activité en cours"
-                                or sortie.etat.libelle == "Activité en cours"%}
+                                or sortie.etat.libelle == "Activité en cours" %}
                                 <a href="{{ path('sortie_details', {id: sortie.id}) }}">afficher</a>
-                                {%  if connectUserParticipant in sortie.inscrits %}
-                                    <a href="{{ path('desinscription_sortie', {idSortie : sortie.id, idParticipant : connectUserParticipant.id }) }}">Se désister</a>
+                                {% if connectUserParticipant in sortie.inscrits %}
+                                    <a href="{{ path('desinscription_sortie', {idSortie : sortie.id, idParticipant : connectUserParticipant.id }) }}">Se
+                                        désister</a>
                                 {% elseif sortie.inscrits|length < sortie.nbInscriptionsMax
                                     and "now"|date("Y-m-d") < sortie.dateLimiteInscription|date("Y-m-d") and sortie.etat.libelle == "Ouverte" %}
                                     <a href="{{ path('inscription_sortie', {idSortie : sortie.id, idParticipant : connectUserParticipant.id }) }}">S'inscrire</a>
@@ -101,9 +111,10 @@
                             {% endif %}
                         </th>
                     </tr>
-                {%  endfor %}
-            </tbody>
-        </table>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
         <div class="smartphone">
             <a href="{{ path('sortie_new') }}"><button class="create" type="button">Créer une sortie</button></a>
         </div>
