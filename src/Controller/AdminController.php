@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Ville;
 use App\Data\ImportCSV;
 use App\Entity\User;
+use App\Form\AjouterVilleType;
 use App\Form\ImportCSVType;
 use App\Repository\CampusRepository;
 use App\Repository\UserRepository;
+use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +18,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * @Route("/admin", name="admin")
+ */
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin/ajoutUtilisateur", name="admin")
+     * @Route("/ajoutUtilisateur", name="_ajoutListeParticipant")
      */
     public function ajoutParticipant(Request $request,
                         UserPasswordEncoderInterface $passwordEncoder,
@@ -88,7 +94,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/listeParticipant", name="liste_participant")
+     * @Route("/listeParticipant", name="_liste_participant")
      */
     public function listeParticipant(UserRepository $userRepository,
                                      Request $request,
@@ -124,6 +130,32 @@ class AdminController extends AbstractController
 
         return $this->render('admin/listeParticipants.html.twig', [
             'users' => $users
+        ]);
+    }
+
+    /**
+     * @Route("/listeVille", name="_listeVille")
+     */
+    public function gestionVille(VilleRepository $villeRepository,
+                                 Request $request,
+                                 EntityManagerInterface $entityManager)
+    {
+        $listeVille = $villeRepository->findAll();
+        $ville = new Ville();
+        $formVille = $this->createForm(AjouterVilleType::class, $ville);
+        $formVille->handleRequest($request);
+        if($formVille->isSubmitted() && $formVille->isValid())
+        {
+            $entityManager->persist($ville);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'La ville à bien été ajouter');
+            return $this->redirect_to_route('admin_listeVille');
+        }
+
+        return $this->render('/admin/ajouterVille.html.twig', [
+            'formVille' => $formVille->createView(),
+            'listeVille' => $listeVille
         ]);
     }
 }

@@ -23,6 +23,11 @@ class InscriptionSortieController extends AbstractController
     {
 
         $sortie = $sortieRepository->find($idSortie);
+        if(!$this->isGranted('subscribe_possible', $sortie))
+        {
+            $this->addFlash('erreur', 'Vous ne pouvez plus vous inscrire à cette activité');
+            return $this->redirectToRoute('sortie_liste');
+        }
         $participant = $participantRepository->find($idParticipant);
         //Vérification du nombre d'inscrit
         $nbInscritMax = $sortie->getNbInscriptionsMax();
@@ -46,6 +51,11 @@ class InscriptionSortieController extends AbstractController
                                    EntityManagerInterface $entityManager)
     {
         $sortie = $sortieRepository->find($idSortie);
+        if(!$this->isGranted('unsubscribe_possible', $sortie))
+        {
+            $this->addFlash('erreur', 'Vous ne pouvez pas vous désinscrire à cette activité');
+            return $this->redirectToRoute('sortie_liste');
+        }
         $participant = $participantRepository->find($idParticipant);
         $sortie->removeInscrit($participant);
         $entityManager->persist($sortie);
