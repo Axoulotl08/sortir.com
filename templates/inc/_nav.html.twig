@@ -3,6 +3,7 @@
     <span class="navbar lien">
         <a class="link smartphone" aria-current="page" href="{{ path('sortie_liste') }}">Accueil</a>
         {% if app.user %}
+            <a class="link smartphone" aria-current="page" href="{{ path('participant_profil') }}">Mon profil</a>
             <a class="link smartphone" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="smartphone dropdown">
