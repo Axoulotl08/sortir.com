@@ -5,16 +5,11 @@ namespace App\Controller;
 
 
 use App\Data\SearchData;
-use App\Entity\Lieu;
 use App\Entity\Sortie;
-use App\Form\LieuType;
 use App\Form\SearchType;
 use App\Form\SortieType;
-use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
-use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +24,7 @@ class GestionSortiesController extends AbstractController
     /**
      * @Route("", name="liste")
      */
-    public function listeSorties(SortieRepository $sortieRepo, Request $request ): Response
+    public function listeSorties(SortieRepository $sortieRepo, Request $request): Response
     {
         $data = new SearchData();
         if ($data->campus == null){

@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Data\SearchVilleCampus;
 use App\Entity\Ville;
 use App\Data\ImportCSV;
 use App\Entity\User;
 use App\Form\AjouterVilleType;
 use App\Form\ImportCSVType;
+use App\Form\SearchVilleCampusType;
 use App\Repository\CampusRepository;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
@@ -144,17 +146,28 @@ class AdminController extends AbstractController
         $ville = new Ville();
         $formVille = $this->createForm(AjouterVilleType::class, $ville);
         $formVille->handleRequest($request);
+        $searchData = new SearchVilleCampus();
+        $formSearch = $this->createForm(SearchVilleCampusType::class, $searchData);
+        $formSearch->handleRequest($request);
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            //Todo : recherche les villes commençant par XXXX
+
+            $listeVille = $villeRepository->findByName($searchData->getNomSearch());
+            dump($listeVille);
+        }
         if($formVille->isSubmitted() && $formVille->isValid())
         {
             $entityManager->persist($ville);
             $entityManager->flush();
 
             $this->addFlash('success', 'La ville à bien été ajouter');
-            return $this->redirect_to_route('admin_listeVille');
+            return $this->redirectToRoute('admin_listeVille');
         }
 
         return $this->render('/admin/ajouterVille.html.twig', [
             'formVille' => $formVille->createView(),
+            'formSearch' => $formSearch->createView(),
             'listeVille' => $listeVille
         ]);
     }
