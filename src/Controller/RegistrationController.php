@@ -16,7 +16,7 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/ajouterParticipant", name="ajouter_participant")
+     * @Route("/admin/ajouterParticipant", name="admin_ajouter_participant")
      */
     public function register(Request $request,
                              UserPasswordEncoderInterface $passwordEncoder,
@@ -24,12 +24,8 @@ class RegistrationController extends AbstractController
                              AppAuthenticator $authenticator): Response
     {
         $user = new User();
-
-
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-        /*$participant = new Participant();
-        $formParticipant = $this->createForm();*/
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password

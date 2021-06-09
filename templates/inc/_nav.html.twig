@@ -3,16 +3,20 @@
     <span class="navbar lien">
         <a class="link smartphone" aria-current="page" href="{{ path('sortie_liste') }}">Accueil</a>
         {% if app.user %}
+            <a class="link smartphone" aria-current="page" href="{{ path('participant_profil') }}">Mon profil</a>
             <a class="link smartphone" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
-            {% set roles = app.user.roles %}
-            {% for role in roles %}
-                {% if role == "ROLE_ADMIN" %}
-                    <a class="link smartphone" aria-current="page" href="{{ path('ajouter_participant') }}">Inscription</a>
-                    <a class="link smartphone" aria-current="page" href="{{ path('liste_participant') }}">Liste des participants</a>
-                    {# <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Ville</a>
-                    <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Campus</a>#}
-                {% endif %}
-            {% endfor %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="smartphone dropdown">
+                    <div class="dropbtn">Admin</div>
+                    <div class="dropdown-content">
+                        <a class="link" aria-current="page" href="{{ path('admin_ajouter_participant') }}">Ajout d'un utilisateur</a>
+                        <a class="link" aria-current="page" href="{{ path('admin_liste_participant') }}">Liste des participants</a>
+                        <a class="link" aria-current="page" href="{{ path('admin_ajoutListeParticipant') }}">Ajouter une liste d'utilisateur</a>
+                        {# <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Ville</a>
+                        <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Campus</a>#}
+                    </div>
+                </div>
+            {% endif %}
         {% else %}
             <a class="link" aria-current="page" href="{{ path('app_login') }}">Connexion</a>
         {% endif %}

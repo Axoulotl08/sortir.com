@@ -101,11 +101,9 @@
                                 or sortie.etat.libelle == "Activité en cours"
                                 or sortie.etat.libelle == "Activité en cours" %}
                                 <a href="{{ path('sortie_details', {id: sortie.id}) }}">afficher</a>
-                                {% if connectUserParticipant in sortie.inscrits %}
-                                    <a href="{{ path('desinscription_sortie', {idSortie : sortie.id, idParticipant : connectUserParticipant.id }) }}">Se
-                                        désister</a>
-                                {% elseif sortie.inscrits|length < sortie.nbInscriptionsMax
-                                    and "now"|date("Y-m-d") < sortie.dateLimiteInscription|date("Y-m-d") and sortie.etat.libelle == "Ouverte" %}
+                                {%  if connectUserParticipant in sortie.inscrits and is_granted('unsubscribe_possible', sortie) %}
+                                    <a href="{{ path('desinscription_sortie', {idSortie : sortie.id, idParticipant : connectUserParticipant.id }) }}">Se désister</a>
+                                {% elseif is_granted('subscribe_possible', sortie) %}
                                     <a href="{{ path('inscription_sortie', {idSortie : sortie.id, idParticipant : connectUserParticipant.id }) }}">S'inscrire</a>
                                 {% endif %}
                             {% endif %}
