@@ -124,6 +124,8 @@
 {% endblock %}
 
 {% block javascripts %}
+
+    {{ parent () }}
     {% if ajoutVille == 'oui' %}
     <script src="{{ asset('js/gestionLieuSortie.js') }}"></script>
     {% endif %}

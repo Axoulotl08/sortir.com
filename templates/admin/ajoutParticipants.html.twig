@@ -2,10 +2,11 @@
 
 {% block body %}
     <h1>Importer participants depuis un fichier CSV</h1>
-    <div class="blocImport">
+    <div class="blockImport">
         {{ form_start(formCSV) }}
-        {{ form_row(formCSV) }}
-        <button>Ajouter !</button>
+
+        {{ form_widget(formCSV) }}
+        <button class="buttonCSV" >Ajouter !</button>
         {{ form_end(formCSV) }}
     </div>
 

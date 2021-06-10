@@ -6,37 +6,90 @@
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
-    <div class="container">
+    <div class="BodyRegistration">
         <h1>Inscription</h1>
         {{ form_start(registrationForm) }}
-        <div class="row">
+        <div class="blockRegistration">
             <div class="col-lg-4 col-lg-offset-4" hidden>
                 {{ form_row(registrationForm.username) }}
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-4 col-lg-offset-4">
-                {{ form_row(registrationForm.participant) }}
+        <div class="blockRegistration">
+            <span class="labelRegistration">
+                {{ form_label(registrationForm.participant.nom) }}
+            </span>
+            <span class="inputRegistration">
+                {{ form_widget(registrationForm.participant.nom) }}
+            </span>
+        </div>
+        <div class="blockRegistration">
+            <span class="labelRegistration">
+                {{ form_label(registrationForm.participant.prenom) }}
+            </span>
+            <span class="inputRegistration">
+                {{ form_widget(registrationForm.participant.prenom) }}
+            </span>
+        </div>
+        <div class="blockRegistration">
+            <span class="labelRegistration">
+                {{ form_label(registrationForm.participant.telephone) }}
+            </span>
+            <span class="inputRegistration">
+                {{ form_widget(registrationForm.participant.telephone) }}
+            </span>
+        </div>
+        <div class="blockRegistration">
+            <span class="labelRegistration">
+                {{ form_label(registrationForm.participant.mail) }}
+            </span>
+            <span class="inputRegistration">
+                {{ form_widget(registrationForm.participant.mail) }}
+            </span>
+        </div>
+        <div class="blockRegistration">
+            <span class="labelRegistration">
+                {{ form_label(registrationForm.participant.campus) }}
+            </span>
+            <span class="inputRegistration">
+                {{ form_widget(registrationForm.participant.campus) }}
+            </span>
+        </div>
+        <div class="blockRegistration">
+            <span class="labelRegistration">
+                {{ form_label(registrationForm.participant.administrateur) }}
+            </span>
+            <span class="inputRegistration">
+                {{ form_widget(registrationForm.participant.administrateur) }}
+            </span>
+        </div>
+        <div class="blockRegistration">
+            <span class="labelRegistration">
+                {{ form_label(registrationForm.participant.imageFile) }}
+            </span>
+            <span class="inputRegistration">
+                {{ form_widget(registrationForm.participant.imageFile) }}
+            </span>
+        </div>
+        <div class="blockPassword">
+            <div class="blockRegistration">
+            <span class="labelRegistration">
+                Mot de passe :
+            </span>
+                <span class="inputRegistration">
+                {{ form_widget(registrationForm.plainPassword) }}
+            </span>
+            </div>
+            <div class="blockRegistration">
+            <span class="labelRegistration">
+                Confirmer mot de passe :
+            </span>
+                <span class="inputRegistration">
+                {{ form_widget(registrationForm.confirmationPass) }}
+            </span>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-4 col-lg-offset-4">
-                {{ form_row(registrationForm.plainPassword, {
-                label: 'Mot de passe :'
-            }) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 col-lg-offset-4">
-                {{ form_row(registrationForm.confirmationPass, {
-                    label: 'Confirmation mot de passe :'
-                }) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 col-lg-offset-4 ">
-                <button type="submit" class="btn btn-success">Inscription</button>
-            </div>
+        <div class="blockRegistration">
+            <button type="submit" class="btn btn-success">Inscription</button>
         </div>
         {{ form_end(registrationForm) }}
     </div>

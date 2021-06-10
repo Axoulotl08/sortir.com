@@ -32,19 +32,41 @@ header{
 
 .icon-navbar
 {
-    margin-left:5px;
-    height: 40px;
+    height: 80px;
+    overflow: hidden;
 }
 
 .logo{
     height: 50px;
     width: 120px;
+    top:0;
 }
 
 
-.icon-navbar>a
+.navbar .link
 {
     text-decoration: none;
+    color: darkblue;
+    margin:5px;
+}
+
+.dropdownContent{
+    display: none;
+    width: fit-content;
+    text-align: right;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 5px 5px 10px black;
+}
+
+.dropdownContent a{
+    display: block;
+    padding: 2px;
+}
+
+.dropbtn{
+    cursor: pointer;
+    color: darkblue;
 }
 
 .lien
@@ -69,7 +91,10 @@ button
     padding:10px;
 }
 
-
+input:required
+{
+    border: 1px solid red !important ;
+}
 /* page de connexion */
 
 .groupeConnexion{
@@ -355,9 +380,93 @@ textarea {
 
 /* page d'import CSV */
 
-#import_csv{
-    display: inline-block;
+.blockImport{
+    text-align: center;
 }
+
+.buttonCSV{
+    margin-top:10px;
+}
+
+
+/* css des pages "d'inscription" et de profil */
+
+
+.BodyRegistration,
+.bodyProfil{
+    width: 50%;
+    position: relative;
+    margin: auto;
+    padding: 20px;
+
+}
+
+#pseudo{
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.imageProfile{
+    border: 15px ridge lightgray;
+    border-radius: 5px;
+}
+
+
+.blockRegistration,.blockProfil{
+    position: relative;
+    margin: auto;
+    text-align: center;
+    padding: 10px;
+}
+
+.labelRegistration,
+.labelProfil
+{
+    display: inline-block;
+    width: 35%;
+    text-align: left;
+}
+
+.infoProfil
+{
+    display: inline-block;
+    width: 45%;
+    text-align: left;
+}
+
+
+
+.inputRegistration>input,
+.inputRegistration select,
+.inputProfil>input,
+.inputProfil select
+{
+    display: inline-block;
+    width: 40%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.blockPassword{
+    border: 1px solid black;
+    margin: 25px;
+    border-radius: 10px;
+}
+
+.inputRegistration div,
+.inputProfil>div
+{
+    display: inline-block;
+    width: 40%;
+    padding: 5px;
+}
+
+
+
+
+/* fin de css de la page "d'inscription" */
+
 
 /*css de la popIn en lien avec js*/
 .modalMaskActive{
@@ -423,15 +532,6 @@ textarea {
 
 
 
-
-.affichage_profil{
-    text-align: center;
-}
-.container {
-    width: content-box;
-    border: tomato;
-    border-width: 10px;
-}
 
 .info_user,
 .info_jour

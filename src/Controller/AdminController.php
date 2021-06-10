@@ -85,7 +85,7 @@ class AdminController extends AbstractController
             }
             $entityManager->flush();
 
-            return $this->redirectToRoute('liste_participant');
+            return $this->redirectToRoute('admin_liste_participant');
         }
 
         return $this->render('admin/ajoutParticipants.html.twig', [
@@ -125,7 +125,7 @@ class AdminController extends AbstractController
             }
             $entityManager->flush();
 
-            return $this->redirectToRoute('liste_participant');
+            return $this->redirectToRoute('admin_liste_participant');
         }
 
         return $this->render('admin/listeParticipants.html.twig', [
@@ -150,7 +150,7 @@ class AdminController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'La ville à bien été ajouter');
-            return $this->redirect_to_route('admin_listeVille');
+            return $this->redirectToRoute('admin_listeVille');
         }
 
         return $this->render('/admin/ajouterVille.html.twig', [

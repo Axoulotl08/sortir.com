@@ -1,21 +1,25 @@
 <header>
-    <span class="navbar icon-navbar"><a class="brand" href="{{ path('sortie_liste') }}"><img class="logo" src="{{ asset('images/sortir.com.png')}}"></a></span> {# todo a remplacer par logo #}
+    <span class="navbar icon-navbar">
+        <a href="{{ path('sortie_liste') }}">
+            <img class="logo" src="{{ asset('images/sortir.com.png')}}">
+        </a>
+    </span>
     <span class="navbar lien">
         <a class="link smartphone" aria-current="page" href="{{ path('sortie_liste') }}">Accueil</a>
         {% if app.user %}
             <a class="link smartphone" aria-current="page" href="{{ path('participant_profil') }}">Mon profil</a>
             <a class="link smartphone" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
             {% if is_granted('ROLE_ADMIN') %}
-                <div class="smartphone dropdown">
-                    <div class="dropbtn">Admin</div>
-                    <div class="dropdown-content">
+                <span class="smartphone dropdown">
+                    <span class="dropbtn">Admin</span>
+                    <span class="dropdownContent">
                         <a class="link" aria-current="page" href="{{ path('admin_ajouter_participant') }}">Ajout d'un utilisateur</a>
+                        <a class="link" aria-current="page" href="{{ path('admin_ajoutListeParticipant') }}">Importer une liste d'utilisateur</a>
                         <a class="link" aria-current="page" href="{{ path('admin_liste_participant') }}">Liste des participants</a>
-                        <a class="link" aria-current="page" href="{{ path('admin_ajoutListeParticipant') }}">Ajouter une liste d'utilisateur</a>
-                        {# <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Ville</a>
+                       {# <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Ville</a>
                         <a class="link" aria-current="page" href="{{ path('ajouter_participant') }}">Campus</a>#}
-                    </div>
-                </div>
+                    </span>
+                </span>
             {% endif %}
         {% else %}
             <a class="link" aria-current="page" href="{{ path('app_login') }}">Connexion</a>

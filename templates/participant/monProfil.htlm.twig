@@ -2,24 +2,51 @@
 
 {% block body %}
     <section class="container">
-
-        <div class="affichage_profil" >{{ form_start(userForm) }}<br></div>
-        <div class="affichage_profil" >{{ form_row(userForm.username) }}<br></div>
-            <div class="affichage_profil" >{{ form_row(userForm.participant.nom) }}<br></div>
-                <div class="affichage_profil" >{{ form_row(userForm.participant.prenom) }}<br></div>
-        <div class="affichage_profil" >{{ form_row(userForm.participant.telephone) }}<br></div>
-        <div class="affichage_profil" >{{ form_row(userForm.participant.mail) }}<br></div>
-        <div class="affichage_profil" >{{ form_row(userForm.plainPassword, {'required':false}) }}<br></div>
-        <div class="affichage_profil" >{{ form_row(userForm.confirmationPass, {'required':false}) }}<br></div>
-        <div class="affichage_profil" >{{ form_row(userForm.participant.campus) }}<br></div>
-        <div class="affichage_profil" >{{ form_row(userForm.participant.imageFile) }}</div>
-        <div class="affichage_profil" ><button>Enregistrer</button></div>
-        <div hidden>
-            {{ form_row(userForm.participant.administrateur) }}
-            {{ form_end(userForm) }}
+    <h1>Mon profil</h1>
+        {{ form_start(userForm) }}
+        <div class="blockProfil" >
+            <span class="labelProfil">{{ form_label(userForm.username) }}</span>
+            <span class="inputProfil">{{ form_widget(userForm.username) }}</span>
         </div>
-        {{ form_end(userForm) }}
-        <div class="affichage_profil" ><a href="{{ path('sortie_liste') }}">Annuler</a></div>
+        <div class="blockProfil" >
+            <span class="labelProfil">{{ form_label(userForm.participant.nom) }}</span>
+            <span class="inputProfil">{{ form_widget(userForm.participant.nom) }}</span>
+        </div>
+        <div class="blockProfil" >
+            <span class="labelProfil">{{ form_label(userForm.participant.prenom) }}</span>
+            <span class="inputProfil">{{ form_widget(userForm.participant.prenom) }}</span>
+        </div>
+        <div class="blockProfil" >
+            <span class="labelProfil">{{ form_label(userForm.participant.telephone) }}</span>
+            <span class="inputProfil">{{ form_widget(userForm.participant.telephone) }}</span>
+        </div>
+        <div class="blockProfil" >
+            <span class="labelProfil">{{ form_label(userForm.participant.mail) }}</span>
+            <span class="inputProfil">{{ form_widget(userForm.participant.mail) }}</span>
+        </div>
+        <div class="blockProfil" >
+            <span class="labelProfil">Mot de passe :</span>
+            <span class="inputProfil">{{ form_widget(userForm.plainPassword, {'required':false}) }}</span>
+        </div>
+        <div class="blockProfil" >
+            <span class="labelProfil">Confirmer mot de passe :</span>
+            <span class="inputProfil">{{ form_widget(userForm.confirmationPass, {'required':false}) }}</span>
+        </div>
+        <div class="blockProfil" >
+            <span class="labelProfil">{{ form_label(userForm.participant.campus) }}</span>
+            <span class="inputProfil">{{ form_widget(userForm.participant.campus) }}</span>
+        </div>
+        <div class="blockProfil" >
+            <span class="labelProfil">{{ form_label(userForm.participant.imageFile) }}</span>
+            <span class="inputProfil">{{ form_widget(userForm.participant.imageFile) }}</span>
+        </div>
+        <div class="blockProfil" >
+            <button>Enregistrer</button>
+            <a href="{{ path('sortie_liste') }}">
+                <button type="button">Annuler</button>
+            </a>
+        </div>
+        {{ form_end(userForm, {'render_rest': false}) }}
     </section>
 {% endblock %}
 

@@ -28,16 +28,17 @@ class ParticipantType extends AbstractType
                 'label' => 'Téléphone :'
             ])
             ->add('mail', EmailType::class, [
-                'label' => 'Email'
+                'label' => 'Email :'
             ])
 
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
-                'placeholder' => 'Sélectionnez le campus'
+                'placeholder' => 'Sélectionnez le campus',
+                'label' => 'campus :'
             ])
             ->add('administrateur', CheckboxType::class, [
-                'label' => 'Administrateur ?',
+                'label' => 'Administrateur? :',
                 'required' => false
             ])
             ->add('imageFile', VichImageType::class, [
