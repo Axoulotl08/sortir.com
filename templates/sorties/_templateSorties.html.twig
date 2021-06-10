@@ -78,6 +78,11 @@
                     <button type="button" name="validation" value="annuler">annuler</button>
                 </a>
             </div>
+            <div id="modalMask" class="modalMaskInactive">
+                <div id="modal">modale</div>
+            </div>
+            <div id="waiting" class="iconWaitingInactive"><img class="imageWaiting" src="{{ asset('icon/waiting-icon-gif-1.jpg') }}"></div>
+
             {% block formEnd "" %}
 
 
@@ -113,9 +118,6 @@
             </div>
         {% endif %}</div>
 
-    <div id="modalMask" class="modalMaskInactive">
-        <div id="modal">modale</div>
-    </div>
 
 {% endblock %}
 

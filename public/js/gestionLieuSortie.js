@@ -122,7 +122,6 @@ function traitementFormulaireLieu() {
         formData = new FormData(formulaire);
         plainFormData = Object.fromEntries(formData.entries());
 
-
         const formDataJsonString = JSON.stringify(plainFormData);
         fetch(urlComplet, {
             headers: {
@@ -135,7 +134,8 @@ function traitementFormulaireLieu() {
             return reponse.json();
 
         }).then(listLieu=>{
-
+            document.querySelector('#waiting').classList.add('iconWaitingActive');
+            document.querySelector('#waiting').classList.remove('iconWaitingInactive');
 
             newSelect = '';
             listLieu.forEach((lieu, key, tableauLieu) => {
@@ -149,7 +149,11 @@ function traitementFormulaireLieu() {
                     console.log(lieu.id);
                     document.querySelector('#sortie_ville').value = lieu.idVille;
                     document.querySelector('#sortie_ville').dispatchEvent(new Event('change'));
-                    setTimeout(function(){document.querySelector('#sortie_lieu').value = lieu.id;},5000);
+                    setTimeout(function(){
+                        document.querySelector('#sortie_lieu').value = lieu.id;
+                        document.querySelector('#waiting').classList.add('iconWaitingInactive');
+                        document.querySelector('#waiting').classList.remove('iconWaitingActive');
+                        },5000);
                 }
 
                 //newSelect += `<option value="${lieu.id}">${lieu.nom}</option>`;
