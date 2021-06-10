@@ -1,31 +1,49 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <table class="listeSortie">
-        <thead>
-        <tr>
-            <th>Ville</th>
-            <th>Code Postal</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        {%  for ville in listeVille %}
+    <div class="filtre smartphone">
+        <h3>Filtrer les villes</h3>
+        {{ form_start(formSearch) }}
+        <div class="categorieFiltre">
+            <div class="champFiltre">
+                {{ form_label(formSearch.nomSearch) }}
+                {{ form_widget(formSearch.nomSearch) }}
+            </div>
+        </div>
+        <button class="categorieFiltre">Rechercher</button>
+        {{ form_end(formSearch)}}
+    </div>
+    <div>
+        <table class="listeSortie">
+            <thead>
             <tr>
-                <th>{{ ville.nom }}</th>
-                <th>{{ ville.codePostal }}</th>
-                <th>Modifier - Supprimer</th>
+                <th>Ville</th>
+                <th>Code Postal</th>
+                <th>Action</th>
             </tr>
-        {%  endfor %}
-        {{ form_start(formVille) }}
-            <tr>
-                <th>{{ form_row(formVille.nom) }}</th>
-                <th>{{ form_row(formVille.codePostal) }}</th>
-                <th><button type="submit">Ajouter</button></th>
-            </tr>
-        {{ form_end(formVille) }}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {%  for ville in listeVille %}
+                <tr>
+                    <th>{{ ville.nom }}</th>
+                    <th>{{ ville.codePostal }}</th>
+                    <th>Modifier - Supprimer</th>
+                </tr>
+            {%  endfor %}
+            {{ form_start(formVille) }}
+                <tr>
+                    <th>{{ form_row(formVille.nom, {
+                            'label':false
+                        }) }}</th>
+                    <th>{{ form_row(formVille.codePostal, {
+                            'label':false
+                        }) }}</th>
+                    <th><button type="submit">Ajouter</button></th>
+                </tr>
+            {{ form_end(formVille) }}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
 
 {% block title %}
