@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="filtre smartphone">
+        <h3>Filtrer les campus</h3>
+        {{ form_start(formSearch) }}
+        <div class="categorieFiltre">
+            <div class="champFiltre">
+                {{ form_label(formSearch.nomSearch) }}
+                {{ form_widget(formSearch.nomSearch) }}
+            </div>
+        </div>
+        <button class="categorieFiltre">Rechercher</button>
+        {{ form_end(formSearch)}}
+    </div>
+    <div>
+        <table class="listeSortie">
+            <thead>
+            <tr>
+                <th>Campus</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {%  for campus in listeCampus %}
+                <tr>
+                    <th>{{ campus.nom }}</th>
+                    <th>Modifier - Supprimer</th>
+                </tr>
+            {%  endfor %}
+            {{ form_start(formCampus) }}
+            <tr>
+                <th>{{ form_row(formCampus.nom, {
+                        'label':false
+                    }) }}</th>
+                <th><button type="submit">Ajouter</button></th>
+            </tr>
+            {{ form_end(formCampus) }}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block title %}
+    Liste des campus - {{ parent() }}
+{% endblock %}
+

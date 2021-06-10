@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Data\SearchVilleCampus;
+use App\Entity\Campus;
 use App\Entity\Ville;
 use App\Data\ImportCSV;
 use App\Entity\User;
+use App\Form\AjouterCampusType;
 use App\Form\AjouterVilleType;
 use App\Form\ImportCSVType;
 use App\Form\SearchVilleCampusType;
@@ -151,10 +153,7 @@ class AdminController extends AbstractController
         $formSearch->handleRequest($request);
         if($formSearch->isSubmitted() && $formSearch->isValid())
         {
-            //Todo : recherche les villes commençant par XXXX
-
             $listeVille = $villeRepository->findByName($searchData->getNomSearch());
-            dump($listeVille);
         }
         if($formVille->isSubmitted() && $formVille->isValid())
         {
@@ -169,6 +168,40 @@ class AdminController extends AbstractController
             'formVille' => $formVille->createView(),
             'formSearch' => $formSearch->createView(),
             'listeVille' => $listeVille
+        ]);
+    }
+
+    /**
+     * @Route("/listeCampus", name="_listeCampus")
+     */
+    public function gestionCampus(CampusRepository $campusRepository,
+                                 Request $request,
+                                 EntityManagerInterface $entityManager)
+    {
+        $listeCampus = $campusRepository->findAll();
+        $campus = new Campus();
+        $formCampus = $this->createForm(AjouterCampusType::class, $campus);
+        $formCampus->handleRequest($request);
+        $searchData = new SearchVilleCampus();
+        $formSearch = $this->createForm(SearchVilleCampusType::class, $searchData);
+        $formSearch->handleRequest($request);
+        if($formSearch->isSubmitted() && $formSearch->isValid())
+        {
+            $listeCampus = $campusRepository->findByName($searchData->getNomSearch());
+        }
+        if($formCampus->isSubmitted() && $formCampus->isValid())
+        {
+            $entityManager->persist($campus);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le campus à bien été ajouter');
+            return $this->redirectToRoute('admin_listeCampus');
+        }
+
+        return $this->render('/admin/ajouterCampus.html.twig', [
+            'formCampus' => $formCampus->createView(),
+            'formSearch' => $formSearch->createView(),
+            'listeCampus' => $listeCampus
         ]);
     }
 }
