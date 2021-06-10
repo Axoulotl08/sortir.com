@@ -4,12 +4,31 @@
 <section class="bodyProfil">
     <img class="imageProfile" src="{{ asset('images/profils/' ~ user.participant.imageName) }}" alt="Photo de {{ user.username }}" class="affichage_profil">
     <div class="blockProfil" id="pseudo">{{ user.username }}</div>
-    <div class="blockProfil"><span class="labelProfil">Prénom : </span><span class="infoProfil">{{ user.participant.prenom}}</span> </div>
-    <div class="blockProfil"><span class="labelProfil">Nom : </span><span class="infoProfil">{{ user.participant.nom }}</span></div>
-    <div class="blockProfil"><span class="labelProfil">Téléphone : </span><span class="infoProfil">{{ user.participant.telephone }}</span></div>
-    <div class="blockProfil"><span class="labelProfil">Email : </span><span class="infoProfil">{{ user.participant.mail }}</span></div>
-    <div class="blockProfil"><span class="labelProfil">Campus : </span><span class="infoProfil">{{ user.participant.campus.nom }}</span></div>
-    <div class="blockProfil"><a href="{{ path('sortie_liste') }}" title="Retour à la liste des sortie"><button type="button">Retour</button></a></div>
+    <div class="blockProfil">
+        <span class="labelProfil">Prénom : </span>
+        <span class="infoProfil">{{ user.participant.prenom}}</span>
+    </div>
+    <div class="blockProfil">
+        <span class="labelProfil">Nom :</span>
+        <span class="infoProfil">{{ user.participant.nom }}</span>
+    </div>
+    <div class="blockProfil">
+        <span class="labelProfil">Téléphone :</span>
+        <span class="infoProfil">{{ user.participant.telephone }}</span>
+    </div>
+    <div class="blockProfil">
+        <span class="labelProfil">Email :</span>
+        <span class="infoProfil">{{ user.participant.mail }}</span>
+    </div>
+    <div class="blockProfil">
+        <span class="labelProfil">Campus :</span>
+        <span class="infoProfil">{{ user.participant.campus.nom }}</span>
+    </div>
+    <div class="blockProfil">
+        <a href="{{ path('sortie_liste') }}" title="Retour à la liste des sortie">
+            <button type="button">Retour</button>
+        </a>
+    </div>
 </section>
 {% endblock %}
 

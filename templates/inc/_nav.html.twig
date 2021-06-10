@@ -1,5 +1,9 @@
 <header>
-    <span class="navbar icon-navbar"><a class="brand" href="{{ path('sortie_liste') }}"><img class="logo" src="{{ asset('images/sortir.com.png')}}"></a></span> {# todo a remplacer par logo #}
+    <span class="navbar icon-navbar">
+        <a class="brand" href="{{ path('sortie_liste') }}">
+            <img class="logo" src="{{ asset('images/sortir.com.png')}}">
+        </a>
+    </span> {# todo a remplacer par logo #}
     <span class="navbar lien">
         <a class="link smartphone" aria-current="page" href="{{ path('sortie_liste') }}">Accueil</a>
         {% if app.user %}
