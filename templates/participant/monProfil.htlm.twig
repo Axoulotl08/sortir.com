@@ -40,13 +40,16 @@
             <span class="labelProfil">{{ form_label(userForm.participant.imageFile) }}</span>
             <span class="inputProfil">{{ form_widget(userForm.participant.imageFile) }}</span>
         </div>
+        <div class="blockProfil masque">
+            {{ form_row(userForm.participant) }}
+        </div>
         <div class="blockProfil" >
-            <button>Enregistrer</button>
+            <button type="submit">Enregistrer</button>
             <a href="{{ path('sortie_liste') }}">
                 <button type="button">Annuler</button>
             </a>
         </div>
-        {{ form_end(userForm, {'render_rest': false}) }}
+        {{ form_end(userForm)}}
     </section>
 {% endblock %}
 

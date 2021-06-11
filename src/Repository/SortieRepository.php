@@ -59,7 +59,10 @@ class SortieRepository extends ServiceEntityRepository
             ->leftJoin('sorties.etat', 'etat')
             ->leftJoin('sorties.inscrits', 'participants')
             ->leftJoin('sorties.siteOrganisateur', 'campus')
-            ->select('sorties','organisateur','etat','participants');
+            ->leftJoin('sorties.lieu', 'lieu')
+            ->leftJoin('lieu.ville', 'ville')
+            ->leftJoin('participants.user', 'user')
+            ->select('sorties','organisateur','etat','participants','lieu','ville', 'user');
 
 
         if(!empty($data->organisateur)){

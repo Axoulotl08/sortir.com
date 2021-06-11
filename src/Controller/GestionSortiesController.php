@@ -45,15 +45,19 @@ class GestionSortiesController extends AbstractController
     }
 
     /**
-     * @Route("/details/{id}", name="details")
+     * @Route("/details/{id}", name="details", requirements={"id"="\d+"})
+     *
      */
     public function detailSorties(int $id, SortieRepository $sortieRepo) : Response
     {
         $sortie = $sortieRepo->find($id);
-
+        if (!$sortie){
+            throw $this->createNotFoundException("sortie non trouvée");
+        }
         return $this->render('sorties/detailsSorties.html.twig', [
             "sortie" => $sortie
         ]);
+
 
     }
 
@@ -91,7 +95,7 @@ class GestionSortiesController extends AbstractController
     }
 
     /**
-     * @Route("/modifier/{id}", name="modifier")
+     * @Route("/modifier/{id}", name="modifier", requirements={"id"="\d+"})
      */
     public function modifierSortie(
             int $id,
@@ -103,6 +107,9 @@ class GestionSortiesController extends AbstractController
     ) : Response
     {
         $modifySortie = $sortieRepo->find($id);
+        if (!$modifySortie){
+            throw $this->createNotFoundException("sortie non trouvée");
+        }
         if(!$this->isGranted('sortie_edit', $modifySortie))
         {
             $this->addFlash('erreur', 'Vous n\'avez pas le droit de modifier cette activité');
