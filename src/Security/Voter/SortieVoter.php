@@ -86,7 +86,6 @@ class SortieVoter extends Voter
     private function canUnsubscribe(Sortie $sortie, User $user)
     {
         //L'étudiant peu se désinscrire sur la sortie n'a pas encore commencer
-        dump(new \DateTime() < $sortie->getDateHeureDebut());
         if(new \DateTime() < $sortie->getDateHeureDebut())
             return true;
         else return false;
