@@ -75,7 +75,8 @@ class SortieType extends AbstractType
             'label'=>'ville',
             'mapped' => false,
             'choice_label' => 'nom',
-            'class' => Ville::class
+            'class' => Ville::class,
+            'placeholder' => "choisissez une ville"
         ]);
 
         $lieu = [];
@@ -119,7 +120,6 @@ class SortieType extends AbstractType
     function onPreSetData(FormEvent $event){
         $sortie = $event->getData();
         $formulaire = $event->getForm();
-        //dd($sortie->getLieu());
 
 
         $villes = $sortie->getLieu() ? $sortie->getLieu()->getVille() : null;

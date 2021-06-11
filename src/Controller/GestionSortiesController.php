@@ -110,6 +110,7 @@ class GestionSortiesController extends AbstractController
         }
         $sortiForm = $this->createForm(SortieType::class, $modifySortie);
         $sortiForm->get('ville')->setData($modifySortie->getLieu()->getVille());
+        $sortiForm->get('lieu')->setData($modifySortie->getLieu());
         $sortiForm->handleRequest($request);
 
 

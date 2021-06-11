@@ -6,10 +6,12 @@
         <table class="listeParticipant">
             <thead>
             <tr>
+                <th>Pseudo</th>
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Mail</th>
                 <th>Telephone</th>
+                <th>Campus</th>
                 <th>Actif</th>
                 <th>Admin</th>
                 <th>Supprimer</th>
@@ -20,10 +22,12 @@
                 <tbody>
                     {%  for user in users %}
                         <tr>
+                            <th><a href="{{ path("participant_afficher",{id:user.participant.id}) }}">{{ user.username }}</a></th>
                             <th>{{ user.participant.nom }}</th>
                             <th>{{ user.participant.prenom }}</th>
                             <th>{{ user.participant.mail }}</th>
                             <th>{{ user.participant.telephone }}</th>
+                            <th>{{ user.participant.campus.nom }}</th>
                             <th>{% if user.participant.actif %}<img  class="checked" src="https://img.icons8.com/pastel-glyph/64/000000/checked--v4.png"/>{% endif %}</th>
                             <th>{% if user.participant.administrateur %}<img  class="checked" src="https://img.icons8.com/pastel-glyph/64/000000/checked--v4.png"/>{% endif %}</th>
                             <th><input type="checkbox" name="supp_{{ user.id }}"></th>

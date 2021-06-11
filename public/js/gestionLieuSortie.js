@@ -3,10 +3,12 @@
 const url = new URL(window.location.origin + '/sortir.com/public');
 /* todo retirer /sortir.com/public en prod */
 const contenuDivForm = document.querySelector('#modal');
+const modalMaskSelect = document.querySelector('#modalMask')
 
 miseAJourDeInfoLieu();
 affichageDuFormulaireNouveauLieu();
 miseAjourLieuSuivantVille();
+
 
 /**
  *function qui mes a jours les info du lieu séléctionner
@@ -59,6 +61,7 @@ function miseAjourLieuSuivantVille(){
 }
 
 
+
 /**
  * affiche le formulaire d'ajout de ville lors d'un clique sur le plus
  */
@@ -80,22 +83,29 @@ function affichageDuFormulaireNouveauLieu(){
             }).then(content=>{
                 console.log(content)
                 contenuDivForm.innerHTML = content['content'];
-                document.querySelector('#modalMask').classList.add('modalMaskActive');
-                document.querySelector('#modalMask').classList.remove('modalMaskInactive');
+                modalMaskSelect.classList.add('modalMaskActive');
+                modalMaskSelect.classList.remove('modalMaskInactive');
+
+
+
                 document.querySelector('#boutonReturn').addEventListener('click',()=>{
                     contenuDivForm.innerHTML = "modale"
-                    document.querySelector('#modalMask').classList.add('modalMaskInactive');
-                    document.querySelector('#modalMask').classList.remove('modalMaskActive');
+                    modalMaskSelect.classList.add('modalMaskInactive');
+                    modalMaskSelect.classList.remove('modalMaskActive');
                 })
 
                 traitementFormulaireLieu();
+                setTimeout(function(){
+                    gestionMap();
+                },500)
+
             }).catch(e=>{
                 alert("il y a eut une erreur dans la recuperation du formulaire d'ajout de lieu")
             })
         }else{
             contenuDivForm.innerHTML = "modale"
-            document.querySelector('#modalMask').classList.add('modalMaskInactive');
-            document.querySelector('#modalMask').classList.remove('modalMaskActive');
+            modalMaskSelect.classList.add('modalMaskInactive');
+            modalMaskSelect.classList.remove('modalMaskActive');
         }
 
     })
@@ -160,11 +170,63 @@ function traitementFormulaireLieu() {
             })
             selectLieu.innerHTML = newSelect;
             contenuDivForm.innerHTML = "modale";
-            document.querySelector('#modalMask').classList.add('modalMaskInactive');
-            document.querySelector('#modalMask').classList.remove('modalMaskActive');
+            modalMaskSelect.classList.add('modalMaskInactive');
+            modalMaskSelect.classList.remove('modalMaskActive');
 
         }).catch(e=>{
             alert("il y a eut une erreur dans l'execution de la demande d'ajout de lieu")
         })
+    })
+}
+
+
+
+
+function gestionMap() {
+
+    document.querySelector('#nouveauLieuMap').innerHTML = '<div id="carteNewLieu"></div>'
+    initMap()
+    document.querySelector('#lieu_rue').addEventListener('focusout',e=>{
+        let ville = document.querySelector('#lieu_ville').options[document.querySelector('#lieu_ville').selectedIndex].text
+        let rue = e.target.value
+        nominatim(rue, ville);
+
+    })
+}
+let latitude = 47.31031306243373
+let longitude = -2.175307595374582
+function initMap(){
+    cartenl = L.map('carteNewLieu').setView([latitude, longitude], 13);
+
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, &copy; AMichel-NBeurel contributors',
+        minZoom: 1,
+        maxZoom: 20
+    }).addTo(cartenl);
+
+
+    cartenl.on('click', function(e) {
+
+        document.querySelector('#lieu_latitude').value = e.latlng.lat;
+        document.querySelector('#lieu_longitude').value = e.latlng.lng;
+
+        var marqueur = L.marker([e.latlng.lat, e.latlng.lng]).addTo(cartenl);
+        marqueur.bindPopup('<span class=\"ruePopup\">latitude: </span><span> '
+            + e.latlng.lat + '<br><span class=\"ruePopup\">longitude: </span><span> '
+            + e.latlng.lng + '</span>' ).openPopup();
+    });
+}
+
+
+function nominatim(rue, ville){
+
+    fetch('https://nominatim.openstreetmap.org/search?q=' + rue +' '+ ville +'&format=json&polygon_geojson=1&addressdetails=1').then(response=>{
+        return response.json();
+    }).then(coord=>{
+        latitude = coord[0].lat
+        longitude = coord[0].lon
+
+        document.querySelector('#nouveauLieuMap').innerHTML = '<div id="carteNewLieu"></div>'
+        initMap()
     })
 }

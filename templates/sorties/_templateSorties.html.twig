@@ -33,7 +33,7 @@
             <div class="groupeInfo">
                 <div class="blockInfo">
                     <span class="blockLabel blockLabelRight">campus:</span>
-                    <span class="infoOrInput">{% block campusOrganisateur "" %}</span>
+                    <span id="campusOrganisateur" class="infoOrInput">{% block campusOrganisateur "" %}</span>
                 </div>
                 <div class="blockInfo">
                     <span class="blockLabel blockLabelRight">ville:</span>
@@ -48,21 +48,27 @@
                     </span>
                 </div>
                 <div class="blockInfo">
-                    <span class="blockLabel blockLabelRight">Rue:</span>
-                    <span id="rue" class="infoOrInput">{% block rueSortie "" %}</span>
-                </div>
-                <div class="blockInfo">
                     <span class="blockLabel blockLabelRight">Code Postale:</span>
                     <span id="codePostale" class="infoOrInput">{% block codePostalSortie "" %}</span>
                 </div>
-                <div class="blockInfo">
-                    <span class="blockLabel blockLabelRight">Latitude:</span>
-                    <span id="latitude" class="infoOrInput">{% block LatitudeSortie "" %}</span>
+                <div class="masque">
+                    <div class="blockInfo">
+                        <span class="blockLabel blockLabelRight">Rue:</span>
+                        <span id="rue" class="infoOrInput">{% block rueSortie "" %}</span>
+                    </div>
+                    <div class="blockInfo">
+                        <span class="blockLabel blockLabelRight">Latitude:</span>
+                        <span id="latitude" class="infoOrInput">{% block LatitudeSortie "" %}</span>
+                    </div>
+                    <div class="blockInfo">
+                        <span class="blockLabel blockLabelRight">Longitude:</span>
+                        <span id="longitude" class="infoOrInput">{% block LongitudeSortie "" %}</span>
+                    </div>
                 </div>
-                <div class="blockInfo">
-                    <span class="blockLabel blockLabelRight">Longitude:</span>
-                    <span id="longitude" class="infoOrInput">{% block LongitudeSortie "" %}</span>
+                <div id="blockCarte">
+                    <div id="carteInfo"></div>
                 </div>
+
             </div>
         </div>
         {% if ajoutVille == 'oui' %}
@@ -100,7 +106,7 @@
 
                     {% for inscrit in sortie.inscrits|slice(0,sortie.nbInscriptionsMax) %}
                         <tr>
-                            <td>{{ inscrit.user.username }}</td>
+                            <td><a href="{{ path("participant_afficher",{id:inscrit.user.id}) }}">{{ inscrit.user.username }}</a></td>
                             <td>{{ inscrit.prenom }} {{ inscrit.nom }}</td>
                         </tr>
                     {% endfor %}
@@ -125,10 +131,22 @@
     {{ parent () }}
 {% endblock %}
 
+{% block css %}
+    {{ parent () }}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+{% endblock %}
+
 {% block javascripts %}
 
     {{ parent () }}
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+    <script src="{{ asset('js/carte.js') }}"></script>
     {% if ajoutVille == 'oui' %}
     <script src="{{ asset('js/gestionLieuSortie.js') }}"></script>
+
     {% endif %}
 {% endblock %}

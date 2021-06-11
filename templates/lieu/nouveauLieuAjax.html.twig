@@ -1,27 +1,40 @@
-    {{ form_start(lieuForm) }}
+
+{{ form_start(lieuForm) }}
     <h3>Ajouter un lieu</h3>
-    <div class="modalBlock">
-        <span class="modalLabel">{{ form_label(lieuForm.nom) }}:</span>
-        <span class="modalInput"> {{ form_widget(lieuForm.nom) }}</span>
-    </div>
-    <div class="modalBlock">
-        <span class="modalLabel">{{ form_label(lieuForm.rue) }}:</span>
-        <span class="modalInput"> {{ form_widget(lieuForm.rue) }}</span>
-    </div>
-    <div class="modalBlock">
-        <span class="modalLabel">{{ form_label(lieuForm.latitude) }}:</span>
-        <span class="modalInput"> {{ form_widget(lieuForm.latitude) }}</span>
-    </div>
-    <div class="modalBlock">
-        <span class="modalLabel">{{ form_label(lieuForm.longitude) }}:</span>
-        <span class="modalInput"> {{ form_widget(lieuForm.longitude) }}</span>
-    </div>
-    <div class="modalBlock">
-        <span class="modalLabel">{{ form_label(lieuForm.ville) }}:</span>
-        <span class="modalInput"> {{ form_widget(lieuForm.ville) }}</span>
-    </div>
-    <div class="modalBlock">
-        <button type="Submit" id="boutonAjoutLieu">valider</button>
-        <button type="Reset" id="boutonReturn">Annuler</button>
+    <div title="donner un nom a votre lieu; choisissez une ville; choisissez une rue puis cliquez sur la carte">
+        <div class="modalBlock">
+            <span class="modalLabel">{{ form_label(lieuForm.nom) }}:</span>
+            <span class="modalInput"> {{ form_widget(lieuForm.nom) }}</span>
+        </div>
+        <div class="modalBlock">
+            <span class="modalLabel">{{ form_label(lieuForm.ville) }}:</span>
+            <span class="modalInput"> {{ form_widget(lieuForm.ville, {'required':true}) }}</span>
+        </div>
+        <div class="modalBlock">
+            <span class="modalLabel">{{ form_label(lieuForm.rue) }}:</span>
+            <span class="modalInput"> {{ form_widget(lieuForm.rue) }}</span>
+        </div>
+        <div class="masque">
+            <div class="modalBlock">
+                <span class="modalLabel">{{ form_label(lieuForm.latitude) }}:</span>
+                <span class="modalInput"> {{ form_widget(lieuForm.latitude
+                    ) }}</span>
+            </div>
+            <div class="modalBlock">
+                <span class="modalLabel">{{ form_label(lieuForm.longitude) }}:</span>
+                <span class="modalInput"> {{ form_widget(lieuForm.longitude) }}</span>
+            </div>
+        </div>
+        <div id="nouveauLieuMap">
+            <div id="carteNewLieu"><img class="imgLoad" src="{{ asset('icon/waiting-icon-gif-1.jpg') }}"></div>
+        </div>
+        <div class="modalBlock">
+            <button type="Submit" id="boutonAjoutLieu">valider</button>
+            <button type="Reset" id="boutonReturn">Annuler</button>
+        </div>
     </div>
     {{ form_end(lieuForm) }}
+
+
+
+

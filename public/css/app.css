@@ -91,7 +91,8 @@ button
     padding:10px;
 }
 
-input:required
+input:required,
+select:required
 {
     border: 1px solid red !important ;
 }
@@ -298,6 +299,24 @@ h1{
 
 /* mise en page des page sorties */
 
+#carteInfo{
+    height: 250px;
+    border: 1px solid black;
+}
+
+.ruePopup{
+    font-weight: bolder;
+    font-size: 1.3rem;
+    margin-bottom: 50px;
+}
+.leaflet-popup-content-wrapper{
+    text-align: center !important
+}
+
+.masque{
+    display:none;
+}
+
 a.lienBoutton{
     text-decoration: none;
 }
@@ -498,14 +517,20 @@ textarea {
     background-color: white;
     border: 2px solid black;
     border-radius: 20px;
-    height: 40%;
+    height: 60%;
     width: 30%;
     position: relative;
     margin: auto;
-    top:20%;
+    top:10%;
     padding: 60px;
     text-align: center;
     box-shadow: 20px 15px 25px black;
+}
+
+.imgLoad{
+    width: 20px;
+    height: 20px;
+    margin: 20px auto;
 }
 
 #modal h3{
@@ -535,6 +560,11 @@ textarea {
     width:180px;
     border: 1px solid black;
     border-radius: 5px;
+}
+
+#carteNewLieu{
+    height: 300px;
+    border: 1px solid black;
 }
 
 
