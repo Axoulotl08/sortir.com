@@ -198,8 +198,8 @@ let longitude = -2.175307595374582
 function initMap(){
     cartenl = L.map('carteNewLieu').setView([latitude, longitude], 13);
 
-    L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, &copy; AMichel-NBeurel contributors',
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>, &copy; AMichel-NBeurel contributors',
         minZoom: 1,
         maxZoom: 20
     }).addTo(cartenl);
